@@ -1,0 +1,13 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .inputUser ~ p {
+    @apply -translate-y-6 scale-90 z-50 px-3 bg-blue-300;
+  }
+
+  .inputForm {
+    @apply border rounded-xl py-3.5 w-full pl-4 outline-none bg-blue-300 text-base;
+  }
+}
