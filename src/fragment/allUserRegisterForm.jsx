@@ -2,6 +2,7 @@ import { useState } from "react";
 import FormUser from "../componentForm/formUserLogin";
 import FormButton from "../componentForm/buttonForm";
 import TextRegister from "../componentForm/textParagrafRegister";
+import { Link } from "react-router-dom";
 
 export default function FormInputUserRegister() {
   const [isFocusEmail, setIsFocusEmail] = useState(false);
@@ -88,6 +89,12 @@ export default function FormInputUserRegister() {
           />
         </div>
       </div>
+      <Link
+        className="text-blue-900 cursor-pointer block font-medium mt-3"
+        to="/"
+      >
+        Already have an account ?
+      </Link>
       <FormButton textButton="Create Account" />
     </form>
   );

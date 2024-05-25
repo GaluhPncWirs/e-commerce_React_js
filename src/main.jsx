@@ -1,13 +1,27 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import App from "./app.jsx";
+import FormLoginPage from "./formLogin.jsx";
+import Login from "./pages/login.jsx";
 import "./index.css";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Register from "./pages/register.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/",
-    element: <App />,
+    element: (
+      <FormLoginPage>
+        <Login />
+      </FormLoginPage>
+    ),
+  },
+  {
+    path: "/register",
+    element: (
+      <FormLoginPage>
+        <Register />
+      </FormLoginPage>
+    ),
   },
 ]);
 
