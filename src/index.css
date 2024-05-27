@@ -10,4 +10,8 @@
   .inputForm {
     @apply border rounded-xl py-3.5 w-full pl-4 outline-none bg-blue-300 text-base;
   }
+
+  .formButton {
+    @apply text-blue-900 cursor-pointer block font-medium mt-3 hover:underline;
+  }
 }

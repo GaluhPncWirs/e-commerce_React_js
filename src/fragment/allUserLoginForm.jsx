@@ -45,10 +45,7 @@ export default function FormInputUserLogin() {
           />
         </div>
       </div>
-      <Link
-        className="text-blue-900 cursor-pointer block font-medium mt-3"
-        to="/register"
-      >
+      <Link className="formButton" to="/register">
         Don't have an account ?
       </Link>
       <FormButton textButton="Login" />

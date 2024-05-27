@@ -89,10 +89,7 @@ export default function FormInputUserRegister() {
           />
         </div>
       </div>
-      <Link
-        className="text-blue-900 cursor-pointer block font-medium mt-3"
-        to="/"
-      >
+      <Link className="formButton" to="/">
         Already have an account ?
       </Link>
       <FormButton textButton="Create Account" />
