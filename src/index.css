@@ -12,6 +12,6 @@
   }
 
   .formButton {
-    @apply text-blue-900 cursor-pointer block font-medium mt-3 hover:underline;
+    @apply text-blue-900 cursor-pointer inline-block font-medium mt-3 hover:underline ml-1 text-sm;
   }
 }

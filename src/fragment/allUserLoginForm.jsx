@@ -2,7 +2,6 @@ import { useState } from "react";
 import FormUser from "../componentForm/formUserLogin";
 import FormButton from "../componentForm/buttonForm";
 import TextLogin from "../componentForm/textParagrafLogin";
-import { Link } from "react-router-dom";
 
 export default function FormInputUserLogin() {
   const [isFocusEmail, setIsFocusEmail] = useState(false);
@@ -45,9 +44,6 @@ export default function FormInputUserLogin() {
           />
         </div>
       </div>
-      <Link className="formButton" to="/register">
-        Don't have an account ?
-      </Link>
       <FormButton textButton="Login" />
     </form>
   );
