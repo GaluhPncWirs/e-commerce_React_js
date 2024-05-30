@@ -16,8 +16,29 @@ export default function FormInputUserLogin() {
   function handelPassBlur() {
     setIsFocusPass(password !== "");
   }
+
+  function handleLogin(e) {
+    e.preventDefault();
+    const storageEmail = localStorage.getItem("email");
+    const storagePassword = localStorage.getItem("password");
+    if (email === storageEmail && password === storagePassword) {
+      window.location.href = "/products";
+    } else {
+      alert(
+        `Wrong ${
+          email !== storageEmail && password !== storagePassword
+            ? "Email And Password"
+            : email !== storageEmail
+            ? "Email"
+            : password !== storagePassword
+            ? "Password"
+            : ""
+        }`
+      );
+    }
+  }
   return (
-    <form action="">
+    <form onSubmit={handleLogin}>
       <div className="mt-7 relative">
         <div className="mt-4 relative">
           <FormUser
@@ -44,7 +65,7 @@ export default function FormInputUserLogin() {
           />
         </div>
       </div>
-      <FormButton textButton="Login" />
+      <FormButton>Login</FormButton>
     </form>
   );
 }

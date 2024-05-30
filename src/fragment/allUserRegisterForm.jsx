@@ -28,8 +28,15 @@ export default function FormInputUserRegister() {
   function handelRepeatPassBlur() {
     setIsFocusRepeatPass(repeatPassword !== "");
   }
+
+  function handleRegister(e) {
+    e.preventDefault();
+    localStorage.setItem("email", email);
+    localStorage.setItem("password", repeatPassword);
+    localStorage.setItem("name", fullName);
+  }
   return (
-    <form action="">
+    <form onSubmit={handleRegister}>
       <div className="mt-7 relative">
         <div className="mt-4 relative">
           <FormUser
@@ -88,13 +95,7 @@ export default function FormInputUserRegister() {
           />
         </div>
       </div>
-      {/* <p className="text-sm">
-        Already have an account ?
-        <Link className="formButton" to="/">
-          Login
-        </Link>
-      </p> */}
-      <FormButton textButton="Create Account" />
+      <FormButton>Create Account</FormButton>
     </form>
   );
 }
