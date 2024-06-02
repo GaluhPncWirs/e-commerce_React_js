@@ -4,6 +4,7 @@ export default function FormButton({ children }) {
       <button
         className="bg-blue-400 py-1.5 rounded-lg hover:bg-blue-500 w-full"
         type="submit"
+        // onClick={toLogin}
       >
         {children}
       </button>

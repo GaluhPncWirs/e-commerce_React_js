@@ -31,12 +31,25 @@ export default function FormInputUserRegister() {
 
   function handleRegister(e) {
     e.preventDefault();
-    localStorage.setItem("email", email);
-    localStorage.setItem("password", repeatPassword);
-    localStorage.setItem("name", fullName);
+
+    if (!email && !repeatPassword && !fullName) {
+      alert("kamu belum menginputkan semua");
+    } else if (!repeatPassword) {
+      alert("kamu belum mengisikkan password");
+    } else if (!fullName) {
+      alert("kamu belum mengisikkan Nama");
+    } else if (!email) {
+      alert("kamu belum mengisikkan Email");
+    } else {
+      localStorage.setItem("email", email);
+      localStorage.setItem("password", repeatPassword);
+      localStorage.setItem("name", fullName);
+      document.location.href = "/";
+    }
   }
+
   return (
-    <form onSubmit={handleRegister}>
+    <form onSubmit={handleRegister} id="setcontent">
       <div className="mt-7 relative">
         <div className="mt-4 relative">
           <FormUser

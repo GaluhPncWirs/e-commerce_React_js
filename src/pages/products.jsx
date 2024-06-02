@@ -1,7 +1,7 @@
 import CardProduct from "../fragment/cardProduct";
-import reusableBag from "../../public/images/reusable-bag.jpg";
-import shoesAliodas from "../../public/images/shoes-aliodas.jpg";
-import hat from "../../public/images/hat.jpg";
+import reusableBag from "/images/reusable-bag.jpg";
+import shoesAliodas from "/images/shoes-aliodas.jpg";
+import hat from "/images/hat.jpg";
 
 export default function Products() {
   const products = [
@@ -27,6 +27,10 @@ export default function Products() {
       price: "Rp. 350.000",
     },
   ];
+  function handleLogout() {
+    window.location.href = "/";
+    localStorage.clear();
+  }
   return (
     <>
       <div className="bg-blue-400 h-16 w-full">
@@ -41,7 +45,7 @@ export default function Products() {
             <div className="mr-10 border border-white rounded-lg hover:bg-blue-500">
               <button
                 className="px-4 py-1.5 font-semibold"
-                onClick={() => (window.location.href = "/")}
+                onClick={handleLogout}
               >
                 Logout
               </button>
@@ -54,7 +58,7 @@ export default function Products() {
           <div className="w-full basis-2/3">
             <div className="flex flex-wrap ml-5 gap-4">
               {products.map((product) => (
-                <CardProduct key={product.id}>
+                <CardProduct key={product.id} toProductDetail="/productDetail">
                   <CardProduct.Header
                     title={product.title}
                     image={product.image}
