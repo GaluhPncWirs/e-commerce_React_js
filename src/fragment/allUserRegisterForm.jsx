@@ -31,7 +31,7 @@ export default function FormInputUserRegister() {
 
   function handleRegister(e) {
     e.preventDefault();
-
+    setErorText(password !== repeatPassword);
     if (!email && !repeatPassword && !fullName) {
       alert("kamu belum menginputkan semua");
     } else if (!repeatPassword) {
@@ -108,6 +108,13 @@ export default function FormInputUserRegister() {
           />
         </div>
       </div>
+      <p
+        className={`text-xs text-red-500 font-semibold mt-1.5 ${
+          password !== repeatPassword ? `visible` : `invisible`
+        }`}
+      >
+        Password Harus Sama dengan Yang Anda Inputkan Sebelumnya
+      </p>
       <FormButton>Create Account</FormButton>
     </form>
   );
