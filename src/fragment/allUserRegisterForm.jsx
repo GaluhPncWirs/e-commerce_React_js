@@ -31,7 +31,6 @@ export default function FormInputUserRegister() {
 
   function handleRegister(e) {
     e.preventDefault();
-    setErorText(password !== repeatPassword);
     if (!email && !repeatPassword && !fullName) {
       alert("kamu belum menginputkan semua");
     } else if (!repeatPassword) {

@@ -1,14 +1,11 @@
 import { Link } from "react-router-dom";
 
 export default function CardProduct(props) {
-  const { children, toProductDetail } = props;
+  const { children } = props;
   return (
-    <Link
-      className="max-w-sm bg-neutral-700 rounded-lg py-5 text-white flex flex-col justify-between hover:bg-neutral-800"
-      to={toProductDetail}
-    >
+    <div className="max-w-sm bg-neutral-700 rounded-lg py-5 text-white flex flex-col justify-between">
       {children}
-    </Link>
+    </div>
   );
 }
 
@@ -33,13 +30,16 @@ function Body(props) {
   );
 }
 
-function Footer({ price }) {
+function Footer({ price, toDetailProduct }) {
   return (
     <div className="flex justify-between items-center mt-4 px-4">
       <h4 className="font-semibold text-xl tracking-wide">{price}</h4>
-      <button className="bg-blue-500 rounded-md px-5 py-0.5 font-medium hover:bg-blue-600">
+      <Link
+        className="bg-blue-500 rounded-md px-5 py-0.5 font-medium hover:bg-blue-600"
+        to={toDetailProduct}
+      >
         Add To Cart
-      </button>
+      </Link>
     </div>
   );
 }

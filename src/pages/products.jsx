@@ -58,13 +58,16 @@ export default function Products() {
           <div className="w-full basis-2/3">
             <div className="flex flex-wrap ml-5 gap-4">
               {products.map((product) => (
-                <CardProduct key={product.id} toProductDetail="/productDetail">
+                <CardProduct key={product.id}>
                   <CardProduct.Header
                     title={product.title}
                     image={product.image}
                   />
                   <CardProduct.Body>{product.desc}</CardProduct.Body>
-                  <CardProduct.Footer price={product.price} />
+                  <CardProduct.Footer
+                    price={product.price}
+                    toDetailProduct="/productDetail"
+                  />
                 </CardProduct>
               ))}
             </div>
