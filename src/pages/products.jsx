@@ -7,7 +7,6 @@ import { useState } from "react";
 export default function Products() {
   const products = [
     {
-      key: Math.random() * 100,
       id: 1,
       title: "Reusable Totebag recycle",
       image: reusableBag,
@@ -15,7 +14,6 @@ export default function Products() {
       price: 1000000,
     },
     {
-      key: Math.random() * 100,
       id: 2,
       title: "Shoes Aliodas",
       image: shoesAliodas,
@@ -23,7 +21,6 @@ export default function Products() {
       price: 3000000,
     },
     {
-      key: Math.random() * 100,
       id: 3,
       title: "Hat Nike",
       image: hat,
@@ -32,23 +29,27 @@ export default function Products() {
     },
   ];
 
-  const [cart, setCart] = useState([
-    {
-      key: Math.random() * 20,
-      id: 1,
-      qty: 1,
-    },
-  ]);
+  const [cart, setCart] = useState([]);
+  const [clicked, setClicked] = useState(false);
 
   function handleAddToCart(id) {
-    setCart([
-      ...cart,
-      {
-        key: Math.random() * 20,
-        id: id,
-        qty: 1,
-      },
-    ]);
+    setClicked(true);
+    if (cart.find((item) => item.id === id)) {
+      setCart(
+        cart.map((barang) =>
+          barang.id === id ? { ...barang, qty: barang.qty + 1 } : barang
+        )
+      );
+    } else {
+      setCart([
+        ...cart,
+        {
+          key: Math.random() * 100,
+          id: id,
+          qty: 1,
+        },
+      ]);
+    }
   }
 
   function handleLogout() {
@@ -79,10 +80,10 @@ export default function Products() {
       </div>
       <div className="w-[95%] mx-auto">
         <div className="flex justify-between mt-5">
-          <div className="w-full basis-2/3">
+          <div className="w-full basis-3/5">
             <div className="flex flex-wrap gap-4">
               {products.map((product) => (
-                <CardProduct key={product.key}>
+                <CardProduct key={product.id}>
                   <CardProduct.Header
                     title={product.title}
                     image={product.image}
@@ -97,9 +98,11 @@ export default function Products() {
               ))}
             </div>
           </div>
-          <div className="basis-1/3">
-            <h1 className="text-xl font-semibold mb-3">Cart</h1>
-            <table className="text-left table-auto border-separate border-spacing-x-4 border-spacing-y-1">
+          <div className="basis-2/5">
+            <h1 className="text-2xl font-semibold mb-5 text-center text-blue-500">
+              Cart
+            </h1>
+            <table className="text-left table-auto border-separate border-spacing-x-5 border-spacing-y-1">
               <thead>
                 <tr>
                   <td>Qty</td>
@@ -115,18 +118,40 @@ export default function Products() {
                   );
                   return (
                     <tr key={item.key}>
-                      <td>{item.id}</td>
+                      <td>{item.qty}</td>
                       <td>{product.title}</td>
-                      <td>{product.price}</td>
-                      <td>{item.qty * product.price}</td>
+                      <td>
+                        {product.price.toLocaleString("id-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                        })}
+                      </td>
+                      <td>
+                        {(item.qty * product.price).toLocaleString("id-ID", {
+                          style: "currency",
+                          currency: "IDR",
+                        })}
+                      </td>
                     </tr>
                   );
                 })}
               </tbody>
             </table>
+            {clicked && (
+              <div className="relative bg-slate-900">
+                <span className="absolute top-0 text-sm mt-1">
+                  Total All Price =
+                </span>
+                <hr className="border-black border-b w-full mt-1" />
+              </div>
+            )}
           </div>
         </div>
       </div>
     </>
   );
 }
+
+// ${
+//   !clicked ? `invisible` : `visible`
+// }
