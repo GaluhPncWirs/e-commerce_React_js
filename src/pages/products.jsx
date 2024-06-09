@@ -36,8 +36,10 @@ export default function Products() {
     setClicked(true);
     if (cart.find((item) => item.id === id)) {
       setCart(
-        cart.map((barang) =>
-          barang.id === id ? { ...barang, qty: barang.qty + 1 } : barang
+        cart.map((jumlahBarang) =>
+          jumlahBarang.id === id
+            ? { ...jumlahBarang, qty: jumlahBarang.qty + 1 }
+            : jumlahBarang
         )
       );
     } else {
@@ -51,6 +53,11 @@ export default function Products() {
       ]);
     }
   }
+
+  const totalAllPrice = cart.reduce((acc, current) => {
+    const produk = products.find((item) => item.id === current.id);
+    return acc + current.qty * produk.price;
+  }, 0);
 
   function handleLogout() {
     window.location.href = "/";
@@ -99,7 +106,7 @@ export default function Products() {
             </div>
           </div>
           <div className="basis-2/5">
-            <h1 className="text-2xl font-semibold mb-5 text-center text-blue-500">
+            <h1 className="text-2xl font-bold mb-5 text-center text-blue-500">
               Cart
             </h1>
             <table className="text-left table-auto border-separate border-spacing-x-5 border-spacing-y-1">
@@ -116,6 +123,7 @@ export default function Products() {
                   const product = products.find(
                     (product) => product.id === item.id
                   );
+                  let total = item.qty * product.price;
                   return (
                     <tr key={item.key}>
                       <td>{item.qty}</td>
@@ -127,7 +135,7 @@ export default function Products() {
                         })}
                       </td>
                       <td>
-                        {(item.qty * product.price).toLocaleString("id-ID", {
+                        {total.toLocaleString("id-ID", {
                           style: "currency",
                           currency: "IDR",
                         })}
@@ -139,8 +147,12 @@ export default function Products() {
             </table>
             {clicked && (
               <div className="relative bg-slate-900">
-                <span className="absolute top-0 text-sm mt-1">
-                  Total All Price =
+                <span className="absolute top-0 text-base mt-1">
+                  Total All Price ={" "}
+                  {totalAllPrice.toLocaleString("id-ID", {
+                    style: "currency",
+                    currency: "IDR",
+                  })}
                 </span>
                 <hr className="border-black border-b w-full mt-1" />
               </div>
@@ -151,7 +163,3 @@ export default function Products() {
     </>
   );
 }
-
-// ${
-//   !clicked ? `invisible` : `visible`
-// }
