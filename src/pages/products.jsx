@@ -2,7 +2,7 @@ import CardProduct from "../fragment/cardProduct";
 import reusableBag from "/images/reusable-bag.jpg";
 import shoesAliodas from "/images/shoes-aliodas.jpg";
 import hat from "/images/hat.jpg";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Products() {
   const products = [
@@ -31,6 +31,17 @@ export default function Products() {
 
   const [cart, setCart] = useState([]);
   const [clicked, setClicked] = useState(false);
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  useEffect(() => {
+    if (cart.length > 0) {
+      const sum = cart.reduce((acc, current) => {
+        const produk = products.find((item) => item.id === current.id);
+        return acc + current.qty * produk.price;
+      }, 0);
+      setTotalPrice(sum);
+    }
+  }, [cart]);
 
   function handleAddToCart(id) {
     setClicked(true);
@@ -53,11 +64,6 @@ export default function Products() {
       ]);
     }
   }
-
-  const totalAllPrice = cart.reduce((acc, current) => {
-    const produk = products.find((item) => item.id === current.id);
-    return acc + current.qty * produk.price;
-  }, 0);
 
   function handleLogout() {
     window.location.href = "/";
@@ -146,15 +152,17 @@ export default function Products() {
               </tbody>
             </table>
             {clicked && (
-              <div className="relative bg-slate-900">
-                <span className="absolute top-0 text-base mt-1">
-                  Total All Price ={" "}
-                  {totalAllPrice.toLocaleString("id-ID", {
-                    style: "currency",
-                    currency: "IDR",
-                  })}
-                </span>
-                <hr className="border-black border-b w-full mt-1" />
+              <div className="mt-2">
+                <hr className="border-black border-b w-full" />
+                <div className="relative flex pt-2 justify-between">
+                  <p>Total All Price</p>
+                  <p>
+                    {totalPrice.toLocaleString("id-ID", {
+                      style: "currency",
+                      currency: "IDR",
+                    })}
+                  </p>
+                </div>
               </div>
             )}
           </div>
