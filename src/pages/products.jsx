@@ -2,6 +2,7 @@ import CardProduct from "../fragment/cardProduct";
 import reusableBag from "/images/reusable-bag.jpg";
 import shoesAliodas from "/images/shoes-aliodas.jpg";
 import hat from "/images/hat.jpg";
+import Navbar from "../fragment/navbar";
 import { useState, useEffect } from "react";
 
 export default function Products() {
@@ -30,21 +31,11 @@ export default function Products() {
   ];
 
   const [cart, setCart] = useState([]);
-  const [clicked, setClicked] = useState(false);
+  const [totalClicked, setTotalClicked] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
 
-  useEffect(() => {
-    if (cart.length > 0) {
-      const sum = cart.reduce((acc, current) => {
-        const produk = products.find((item) => item.id === current.id);
-        return acc + current.qty * produk.price;
-      }, 0);
-      setTotalPrice(sum);
-    }
-  }, [cart]);
-
   function handleAddToCart(id) {
-    setClicked(true);
+    setTotalClicked(true);
     if (cart.find((item) => item.id === id)) {
       setCart(
         cart.map((jumlahBarang) =>
@@ -65,32 +56,18 @@ export default function Products() {
     }
   }
 
-  function handleLogout() {
-    window.location.href = "/";
-    localStorage.clear();
-  }
+  useEffect(() => {
+    if (cart.length > 0) {
+      const sum = cart.reduce((acc, current) => {
+        const produk = products.find((item) => item.id === current.id);
+        return acc + current.qty * produk.price;
+      }, 0);
+      setTotalPrice(sum);
+    }
+  }, [cart]);
   return (
     <>
-      <div className="bg-blue-400 h-16 w-full">
-        <div className="flex h-full">
-          <div className="basis-1/3 flex justify-center items-center">
-            <h1 className="font-semibold text-xl max-w-32">
-              Train Create E-Commerce
-            </h1>
-          </div>
-          <div className="basis-2/3 flex justify-end items-center gap-10">
-            <h1>Hello {localStorage.getItem("name")}</h1>
-            <div className="mr-10 border border-white rounded-lg hover:bg-blue-500">
-              <button
-                className="px-4 py-1.5 font-semibold"
-                onClick={handleLogout}
-              >
-                Logout
-              </button>
-            </div>
-          </div>
-        </div>
-      </div>
+      <Navbar />
       <div className="w-[95%] mx-auto">
         <div className="flex justify-between mt-5">
           <div className="w-full basis-3/5">
@@ -151,7 +128,7 @@ export default function Products() {
                 })}
               </tbody>
             </table>
-            {clicked && (
+            {totalClicked && (
               <div className="mt-2">
                 <hr className="border-black border-b w-full" />
                 <div className="relative flex pt-2 justify-between">

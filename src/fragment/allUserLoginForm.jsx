@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import FormUser from "../componentForm/formUserLogin";
 import FormButton from "../componentForm/buttonForm";
 import TextLogin from "../componentForm/textParagrafLogin";
@@ -37,6 +37,11 @@ export default function FormInputUserLogin() {
       );
     }
   }
+
+  const focusRef = useRef(null);
+  useEffect(() => {
+    focusRef.current.focus();
+  }, []);
   return (
     <form onSubmit={handleLogin}>
       <div className="mt-7 relative">
@@ -47,6 +52,7 @@ export default function FormInputUserLogin() {
             onBlur={handelEmailBlur}
             onChange={(e) => setEmail(e.target.value)}
             onFocus={() => setIsFocusEmail(true)}
+            ref={focusRef}
           />
           <TextLogin textForm="Email" isFocus={isFocusEmail} childern={email} />
         </div>

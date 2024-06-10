@@ -1,4 +1,6 @@
-export default function FormUser(props) {
+import { forwardRef } from "react";
+
+export default forwardRef(function FormUser(props, ref) {
   const { type, value, onBlur, onChange, onFocus } = props;
   return (
     <input
@@ -8,6 +10,7 @@ export default function FormUser(props) {
       onBlur={onBlur}
       onChange={onChange}
       onFocus={onFocus}
+      ref={ref}
     />
   );
-}
+});
