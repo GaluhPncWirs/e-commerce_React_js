@@ -12,7 +12,7 @@ export default function Navbar() {
           </h1>
         </div>
         <div className="basis-2/3 flex justify-end items-center gap-10">
-          <h1>Hello {localStorage.getItem("name")}</h1>
+          <h1>Hello</h1>
           <div className="mr-10 border border-white rounded-lg hover:bg-blue-500">
             <button
               className="px-4 py-1.5 font-semibold"

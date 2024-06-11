@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import FormUser from "../componentForm/formUserLogin";
 import FormButton from "../componentForm/buttonForm";
 import TextLogin from "../componentForm/textParagrafLogin";
+import { userLogin } from "../services/getDataUser";
 
 export default function FormInputUserLogin() {
   const [isFocusEmail, setIsFocusEmail] = useState(false);
@@ -19,23 +20,14 @@ export default function FormInputUserLogin() {
 
   function handleLogin(e) {
     e.preventDefault();
-    const storageEmail = localStorage.getItem("email");
-    const storagePassword = localStorage.getItem("password");
-    if (email === storageEmail && password === storagePassword) {
-      window.location.href = "/products";
-    } else {
-      alert(
-        `Wrong ${
-          email !== storageEmail && password !== storagePassword
-            ? "Email And Password"
-            : email !== storageEmail
-            ? "Email"
-            : password !== storagePassword
-            ? "Password"
-            : ""
-        }`
-      );
-    }
+    const dataUser = {
+      username: email,
+      password: password,
+    };
+
+    const jsonData = JSON.stringify(dataUser);
+
+    userLogin(jsonData);
   }
 
   const focusRef = useRef(null);
@@ -47,7 +39,7 @@ export default function FormInputUserLogin() {
       <div className="mt-7 relative">
         <div className="mt-4 relative">
           <FormUser
-            type="email"
+            type="text"
             value={email}
             onBlur={handelEmailBlur}
             onChange={(e) => setEmail(e.target.value)}
