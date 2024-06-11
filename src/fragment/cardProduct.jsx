@@ -10,20 +10,21 @@ export default function CardProduct(props) {
 function Header(props) {
   const { title, image } = props;
   return (
-    <div>
-      <h1 className="text-center font-semibold text-lg mb-5">{title}</h1>
+    <div className="mx-1">
+      <h1 className="text-center font-semibold text-lg mb-5">
+        {title.substring(0, 30)}...
+      </h1>
       <div className="flex justify-center items-center mb-5">
-        <img src={image} className="w-1/2 max-h-52 rounded-2xl" />
+        <img src={image} className="w-[90%] h-60 rounded-2xl object-cover" />
       </div>
     </div>
   );
 }
 
-function Body(props) {
-  const { children } = props;
+function Body({ children }) {
   return (
     <div className="px-4 text-justify h-full">
-      <p>{children}</p>
+      <p>{children.substring(0, 170)}...</p>
     </div>
   );
 }
@@ -32,7 +33,7 @@ function Footer({ price, handleAddToCart, id }) {
   return (
     <div className="flex justify-between items-center mt-4 px-4">
       <h4 className="font-semibold text-xl tracking-wide">
-        {price.toLocaleString("id-ID", { style: "currency", currency: "IDR" })}
+        {price.toLocaleString("id-ID", { style: "currency", currency: "USD" })}
       </h4>
       <button
         className="bg-blue-500 rounded-md px-5 py-0.5 font-medium hover:bg-blue-600"

@@ -4,35 +4,37 @@ import shoesAliodas from "/images/shoes-aliodas.jpg";
 import hat from "/images/hat.jpg";
 import Navbar from "../fragment/navbar";
 import { useState, useEffect } from "react";
+import { fakeStoreApi } from "../services/getDataApi";
 
 export default function Products() {
-  const products = [
-    {
-      id: 1,
-      title: "Reusable Totebag recycle",
-      image: reusableBag,
-      desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat voluptates temporibus debitis vitae architecto quas quia deserunt voluptatum enim labore odit eaque! Voluptatibus placeat ratione a suscipit cumque explicabo minus.",
-      price: 1000000,
-    },
-    {
-      id: 2,
-      title: "Shoes Aliodas",
-      image: shoesAliodas,
-      desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat voluptates temporibus debitis vitae architecto quas quia deserunt voluptatum enim labore odit eaque! Voluptatibus.",
-      price: 3000000,
-    },
-    {
-      id: 3,
-      title: "Hat Nike",
-      image: hat,
-      desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat voluptates temporibus debitis vitae architecto quas quia deserunt voluptatum enim.",
-      price: 350000,
-    },
-  ];
+  // const products = [
+  //   {
+  //     id: 1,
+  //     title: "Reusable Totebag recycle",
+  //     image: reusableBag,
+  //     desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat voluptates temporibus debitis vitae architecto quas quia deserunt voluptatum enim labore odit eaque! Voluptatibus placeat ratione a suscipit cumque explicabo minus.",
+  //     price: 1000000,
+  //   },
+  //   {
+  //     id: 2,
+  //     title: "Shoes Aliodas",
+  //     image: shoesAliodas,
+  //     desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat voluptates temporibus debitis vitae architecto quas quia deserunt voluptatum enim labore odit eaque! Voluptatibus.",
+  //     price: 3000000,
+  //   },
+  //   {
+  //     id: 3,
+  //     title: "Hat Nike",
+  //     image: hat,
+  //     desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat voluptates temporibus debitis vitae architecto quas quia deserunt voluptatum enim.",
+  //     price: 350000,
+  //   },
+  // ];
 
   const [cart, setCart] = useState([]);
   const [totalClicked, setTotalClicked] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
+  const [products, setProducts] = useState([]);
 
   function handleAddToCart(id) {
     setTotalClicked(true);
@@ -57,6 +59,12 @@ export default function Products() {
   }
 
   useEffect(() => {
+    fakeStoreApi((data) => {
+      setProducts(data);
+    });
+  }, []);
+
+  useEffect(() => {
     if (cart.length > 0) {
       const sum = cart.reduce((acc, current) => {
         const produk = products.find((item) => item.id === current.id);
@@ -66,26 +74,27 @@ export default function Products() {
     }
   }, [cart]);
   return (
-    <>
+    <div>
       <Navbar />
       <div className="w-[95%] mx-auto">
         <div className="flex justify-between mt-5">
           <div className="w-full basis-3/5">
             <div className="flex flex-wrap gap-4">
-              {products.map((product) => (
-                <CardProduct key={product.id}>
-                  <CardProduct.Header
-                    title={product.title}
-                    image={product.image}
-                  />
-                  <CardProduct.Body>{product.desc}</CardProduct.Body>
-                  <CardProduct.Footer
-                    price={product.price}
-                    handleAddToCart={handleAddToCart}
-                    id={product.id}
-                  />
-                </CardProduct>
-              ))}
+              {products.length > 0 &&
+                products.map((product) => (
+                  <CardProduct key={product.id}>
+                    <CardProduct.Header
+                      title={product.title}
+                      image={product.image}
+                    />
+                    <CardProduct.Body>{product.description}</CardProduct.Body>
+                    <CardProduct.Footer
+                      price={product.price}
+                      handleAddToCart={handleAddToCart}
+                      id={product.id}
+                    />
+                  </CardProduct>
+                ))}
             </div>
           </div>
           <div className="basis-2/5">
@@ -102,30 +111,30 @@ export default function Products() {
                 </tr>
               </thead>
               <tbody>
-                {cart.map((item) => {
-                  const product = products.find(
-                    (product) => product.id === item.id
-                  );
-                  let total = item.qty * product.price;
-                  return (
-                    <tr key={item.key}>
-                      <td>{item.qty}</td>
-                      <td>{product.title}</td>
-                      <td>
-                        {product.price.toLocaleString("id-ID", {
-                          style: "currency",
-                          currency: "IDR",
-                        })}
-                      </td>
-                      <td>
-                        {total.toLocaleString("id-ID", {
-                          style: "currency",
-                          currency: "IDR",
-                        })}
-                      </td>
-                    </tr>
-                  );
-                })}
+                {products.length > 0 &&
+                  cart.map((item) => {
+                    const product = products.find(
+                      (product) => product.id === item.id
+                    );
+                    return (
+                      <tr key={item.key}>
+                        <td>{item.qty}</td>
+                        <td>{product.title.substring(0, 20)}...</td>
+                        <td>
+                          {product.price.toLocaleString("id-ID", {
+                            style: "currency",
+                            currency: "USD",
+                          })}
+                        </td>
+                        <td>
+                          {(item.qty * product.price).toLocaleString("id-ID", {
+                            style: "currency",
+                            currency: "USD",
+                          })}
+                        </td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             </table>
             {totalClicked && (
@@ -136,7 +145,7 @@ export default function Products() {
                   <p>
                     {totalPrice.toLocaleString("id-ID", {
                       style: "currency",
-                      currency: "IDR",
+                      currency: "USD",
                     })}
                   </p>
                 </div>
@@ -145,6 +154,6 @@ export default function Products() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
