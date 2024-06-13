@@ -5,13 +5,13 @@ import TextLogin from "../componentForm/textParagrafLogin";
 import { userLogin } from "../services/getDataUser";
 
 export default function FormInputUserLogin() {
-  const [isFocusEmail, setIsFocusEmail] = useState(false);
+  const [isFocusUsername, setIsFocusUsername] = useState(false);
   const [isFocusPass, setIsFocusPass] = useState(false);
-  const [email, setEmail] = useState("");
+  const [usernameValue, setUsernameValue] = useState("");
   const [password, setPassword] = useState("");
 
-  function handelEmailBlur() {
-    setIsFocusEmail(email !== "");
+  function handelUsernameBlur() {
+    setIsFocusUsername(usernameValue !== "");
   }
 
   function handelPassBlur() {
@@ -21,13 +21,18 @@ export default function FormInputUserLogin() {
   function handleLogin(e) {
     e.preventDefault();
     const dataUser = {
-      username: email,
+      username: usernameValue,
       password: password,
     };
 
-    const jsonData = JSON.stringify(dataUser);
-
-    userLogin(jsonData);
+    userLogin(dataUser, (condition, res) => {
+      if (condition) {
+        localStorage.setItem("token", res);
+        window.location.href = "/products";
+      } else {
+        console.log(res);
+      }
+    });
   }
 
   const focusRef = useRef(null);
@@ -40,13 +45,17 @@ export default function FormInputUserLogin() {
         <div className="mt-4 relative">
           <FormUser
             type="text"
-            value={email}
-            onBlur={handelEmailBlur}
-            onChange={(e) => setEmail(e.target.value)}
-            onFocus={() => setIsFocusEmail(true)}
+            value={usernameValue}
+            onBlur={handelUsernameBlur}
+            onChange={(e) => setUsernameValue(e.target.value)}
+            onFocus={() => setIsFocusUsername(true)}
             ref={focusRef}
           />
-          <TextLogin textForm="Email" isFocus={isFocusEmail} childern={email} />
+          <TextLogin
+            textForm="Username"
+            isFocus={isFocusUsername}
+            childern={usernameValue}
+          />
         </div>
         <div className="mt-5">
           <FormUser

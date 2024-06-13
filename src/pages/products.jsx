@@ -1,36 +1,9 @@
 import CardProduct from "../fragment/cardProduct";
-import reusableBag from "/images/reusable-bag.jpg";
-import shoesAliodas from "/images/shoes-aliodas.jpg";
-import hat from "/images/hat.jpg";
 import Navbar from "../fragment/navbar";
 import { useState, useEffect } from "react";
 import { fakeStoreApi } from "../services/getDataApi";
 
 export default function Products() {
-  // const products = [
-  //   {
-  //     id: 1,
-  //     title: "Reusable Totebag recycle",
-  //     image: reusableBag,
-  //     desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat voluptates temporibus debitis vitae architecto quas quia deserunt voluptatum enim labore odit eaque! Voluptatibus placeat ratione a suscipit cumque explicabo minus.",
-  //     price: 1000000,
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Shoes Aliodas",
-  //     image: shoesAliodas,
-  //     desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat voluptates temporibus debitis vitae architecto quas quia deserunt voluptatum enim labore odit eaque! Voluptatibus.",
-  //     price: 3000000,
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Hat Nike",
-  //     image: hat,
-  //     desc: "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat voluptates temporibus debitis vitae architecto quas quia deserunt voluptatum enim.",
-  //     price: 350000,
-  //   },
-  // ];
-
   const [cart, setCart] = useState([]);
   const [totalClicked, setTotalClicked] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);

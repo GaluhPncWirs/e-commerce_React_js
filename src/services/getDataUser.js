@@ -1,13 +1,19 @@
-export function userLogin(dataUser) {
-  try {
-    fetch("https://fakestoreapi.com/users", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: dataUser,
+import { jwtDecode } from "jwt-decode";
+export function userLogin(dataUserSend, callBackUser) {
+  fetch("https://fakestoreapi.com/auth/login", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(dataUserSend),
+  })
+    .then((res) => res.json())
+    .then((response) => {
+      callBackUser(true, response.token);
     })
-      .then((res) => res.json())
-      .then((response) => response);
-  } catch (err) {
-    console.log(err);
-  }
+    .catch((error) => {
+      callBackUser(false, error);
+    });
+}
+
+export function getUsername(getItem) {
+  return jwtDecode(getItem).user;
 }
