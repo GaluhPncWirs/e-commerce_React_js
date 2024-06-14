@@ -38,7 +38,7 @@ export default function FormInputUserRegister() {
     } else if (!fullName) {
       alert("kamu belum mengisikkan Nama");
     } else if (!email) {
-      alert("kamu belum mengisikkan Email");
+      alert("kamu belum mengisikkan Username");
     } else {
       localStorage.setItem("email", email);
       localStorage.setItem("password", repeatPassword);
@@ -66,14 +66,14 @@ export default function FormInputUserRegister() {
         </div>
         <div className="mt-5">
           <FormUser
-            type="email"
+            type="text"
             value={email}
             onBlur={handelEmailBlur}
             onChange={(e) => setEmail(e.target.value)}
             onFocus={() => setIsFocusEmail(true)}
           />
           <TextRegister
-            textForm="Email"
+            textForm="Username"
             isFocus={isFocusEmail}
             childern={email}
           />

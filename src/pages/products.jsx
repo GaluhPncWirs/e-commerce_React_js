@@ -59,6 +59,7 @@ export default function Products() {
                     <CardProduct.Header
                       title={product.title}
                       image={product.image}
+                      id={product.id}
                     />
                     <CardProduct.Body>{product.description}</CardProduct.Body>
                     <CardProduct.Footer

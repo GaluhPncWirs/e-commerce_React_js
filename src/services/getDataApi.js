@@ -9,3 +9,15 @@ export function fakeStoreApi(callback) {
     console.log(err);
   }
 }
+
+export function detailProduck(id, getItem) {
+  try {
+    fetch(`https://fakestoreapi.com/products/${id}`)
+      .then((respon) => respon.json())
+      .then((json) => {
+        getItem(json);
+      });
+  } catch (err) {
+    console.log(err);
+  }
+}

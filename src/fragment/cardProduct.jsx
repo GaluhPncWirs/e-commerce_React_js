@@ -1,22 +1,27 @@
+import { Link } from "react-router-dom";
+
 export default function CardProduct(props) {
   const { children } = props;
   return (
-    <div className="max-w-xs bg-neutral-700 rounded-lg py-5 text-white flex flex-col justify-between">
+    <div className="max-w-xs bg-neutral-700 rounded-lg py-5 text-white flex flex-col justify-between hover:bg-neutral-600">
       {children}
     </div>
   );
 }
 
 function Header(props) {
-  const { title, image } = props;
+  const { title, image, id } = props;
   return (
     <div className="mx-1">
       <h1 className="text-center font-semibold text-lg mb-5">
         {title.substring(0, 30)}...
       </h1>
-      <div className="flex justify-center items-center mb-5">
+      <Link
+        className="flex justify-center items-center mb-5"
+        to={`/productDetail/${id}`}
+      >
         <img src={image} className="w-[90%] h-60 rounded-2xl object-cover" />
-      </div>
+      </Link>
     </div>
   );
 }

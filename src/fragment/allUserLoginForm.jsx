@@ -30,7 +30,7 @@ export default function FormInputUserLogin() {
         localStorage.setItem("token", res);
         window.location.href = "/products";
       } else {
-        console.log(res);
+        alert(res);
       }
     });
   }

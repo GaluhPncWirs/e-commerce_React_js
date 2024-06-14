@@ -5,7 +5,7 @@ export default function TextRegister(props) {
       className={`absolute ml-4 ${
         textForm === "Full Name"
           ? `top-3`
-          : textForm === "Email"
+          : textForm === "Username"
           ? `top-[87px]`
           : textForm === "Password"
           ? `bottom-[92px]`
