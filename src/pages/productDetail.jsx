@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import Navbar from "../fragment/navbar";
 import { useParams } from "react-router-dom";
 import { detailProduck } from "../services/getDataApi";
+import { Link } from "react-router-dom";
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -48,18 +49,12 @@ export default function ProductDetail() {
             </div>
             <div className="flex space-x-4 mb-3 text-sm font-medium mt-3 items-center">
               <div className="flex-auto flex space-x-4">
-                <button
-                  className="h-10 px-6 font-semibold rounded-md bg-black text-white"
-                  type="submit"
+                <Link
+                  className="h-10 px-6 font-semibold rounded-md border border-slate-200 pt-2 hover:bg-slate-200"
+                  to="/products"
                 >
-                  Buy Now
-                </button>
-                <button
-                  className="h-10 px-6 font-semibold rounded-md border border-slate-200 text-slate-900"
-                  type="button"
-                >
-                  Add To Cart
-                </button>
+                  Back To Product
+                </Link>
               </div>
               <h2 className="font-bold text-sm text-slate-500">
                 Rate {produk.rating.rate} / 5
