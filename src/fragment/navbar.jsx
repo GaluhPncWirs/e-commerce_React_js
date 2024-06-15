@@ -7,7 +7,7 @@ export default function Navbar() {
   }
 
   return (
-    <div className="bg-blue-400 h-16 w-full">
+    <div className="bg-blue-400 h-16 w-full fixed z-[9999] top-0">
       <div className="flex h-full">
         <div className="basis-1/3 flex justify-center items-center">
           <h1 className="font-semibold text-xl max-w-32">

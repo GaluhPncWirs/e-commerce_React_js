@@ -5,16 +5,28 @@ import { detailProduck } from "../services/getDataApi";
 
 export default function ProductDetail() {
   const { id } = useParams();
-  const [produk, setProduk] = useState({});
+  const [produk, setProduk] = useState({
+    id: 0,
+    title: "",
+    price: 0,
+    description: "",
+    category: "",
+    image: "",
+    rating: {
+      rate: 0,
+      count: 0,
+    },
+  });
   useEffect(() => {
     detailProduck(id, (res) => {
       setProduk(res);
     });
   }, [id]);
+
   return (
     <div>
       <Navbar />
-      <div className="w-[60%] mx-auto my-36">
+      <div className="w-[60%] mx-auto my-44">
         <div className="flex font-sans">
           <div className="flex-none w-52 relative">
             <img
@@ -31,7 +43,7 @@ export default function ProductDetail() {
                 $ {produk.price}
               </div>
               <div className="w-full flex-none text-sm font-medium text-slate-700 mt-2">
-                Stock (n/a)
+                Stock ({produk.rating.count})
               </div>
             </div>
             <div className="flex space-x-4 mb-3 text-sm font-medium mt-3 items-center">
@@ -40,16 +52,18 @@ export default function ProductDetail() {
                   className="h-10 px-6 font-semibold rounded-md bg-black text-white"
                   type="submit"
                 >
-                  Buy now
+                  Buy Now
                 </button>
                 <button
                   className="h-10 px-6 font-semibold rounded-md border border-slate-200 text-slate-900"
                   type="button"
                 >
-                  Add to bag
+                  Add To Cart
                 </button>
               </div>
-              <h2 className="font-bold text-sm text-slate-500">Rate n/a / 5</h2>
+              <h2 className="font-bold text-sm text-slate-500">
+                Rate {produk.rating.rate} / 5
+              </h2>
             </div>
             <p className="text-sm text-slate-700">{produk.description}</p>
           </form>

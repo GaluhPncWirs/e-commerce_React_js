@@ -2,15 +2,15 @@ import CardProduct from "../fragment/cardProduct";
 import Navbar from "../fragment/navbar";
 import { useState, useEffect } from "react";
 import { fakeStoreApi } from "../services/getDataApi";
+import DisplayCart from "../fragment/cartDisplay";
 
 export default function Products() {
   const [cart, setCart] = useState([]);
-  const [totalClicked, setTotalClicked] = useState(false);
   const [totalPrice, setTotalPrice] = useState(0);
   const [products, setProducts] = useState([]);
+  const [notificationCart, setNotificationCart] = useState(false);
 
   function handleAddToCart(id) {
-    setTotalClicked(true);
     if (cart.find((item) => item.id === id)) {
       setCart(
         cart.map((jumlahBarang) =>
@@ -29,7 +29,14 @@ export default function Products() {
         },
       ]);
     }
+    setNotificationCart(true);
   }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setNotificationCart(false);
+    }, 3000);
+  }, [notificationCart]);
 
   useEffect(() => {
     fakeStoreApi((data) => {
@@ -46,87 +53,39 @@ export default function Products() {
       setTotalPrice(sum);
     }
   }, [cart]);
+
   return (
     <div>
       <Navbar />
-      <div className="w-[95%] mx-auto">
-        <div className="flex justify-between mt-5">
-          <div className="w-full basis-3/5">
-            <div className="flex flex-wrap gap-4">
-              {products.length > 0 &&
-                products.map((product) => (
-                  <CardProduct key={product.id}>
-                    <CardProduct.Header
-                      title={product.title}
-                      image={product.image}
-                      id={product.id}
-                    />
-                    <CardProduct.Body>{product.description}</CardProduct.Body>
-                    <CardProduct.Footer
-                      price={product.price}
-                      handleAddToCart={handleAddToCart}
-                      id={product.id}
-                    />
-                  </CardProduct>
-                ))}
+      <div className="w-[95%] mx-auto mb-8 relative">
+        <div className="flex flex-wrap gap-4 justify-around pt-28">
+          {products.length > 0 &&
+            products.map((product) => (
+              <CardProduct key={product.id}>
+                <CardProduct.Header
+                  title={product.title}
+                  image={product.image}
+                  id={product.id}
+                />
+                <CardProduct.Body>{product.description}</CardProduct.Body>
+                <CardProduct.Footer
+                  price={product.price}
+                  handleAddToCart={handleAddToCart}
+                  id={product.id}
+                />
+              </CardProduct>
+            ))}
+        </div>
+        {notificationCart && (
+          <div className="flex justify-center">
+            <div className="w-52 bg-slate-300 top-16 py-2 px-5 rounded-b-lg fixed z-[9999]">
+              <h2 className="text-center font-semibold">
+                Already Added To Cart
+              </h2>
             </div>
           </div>
-          <div className="basis-2/5">
-            <h1 className="text-2xl font-bold mb-5 text-center text-blue-500">
-              Cart
-            </h1>
-            <table className="text-left table-auto border-separate border-spacing-x-5 border-spacing-y-1">
-              <thead>
-                <tr>
-                  <td>Qty</td>
-                  <td>Product Name</td>
-                  <td>Price</td>
-                  <td>Total</td>
-                </tr>
-              </thead>
-              <tbody>
-                {products.length > 0 &&
-                  cart.map((item) => {
-                    const product = products.find(
-                      (product) => product.id === item.id
-                    );
-                    return (
-                      <tr key={item.key}>
-                        <td>{item.qty}</td>
-                        <td>{product.title.substring(0, 20)}...</td>
-                        <td>
-                          {product.price.toLocaleString("id-ID", {
-                            style: "currency",
-                            currency: "USD",
-                          })}
-                        </td>
-                        <td>
-                          {(item.qty * product.price).toLocaleString("id-ID", {
-                            style: "currency",
-                            currency: "USD",
-                          })}
-                        </td>
-                      </tr>
-                    );
-                  })}
-              </tbody>
-            </table>
-            {totalClicked && (
-              <div className="mt-2">
-                <hr className="border-black border-b w-full" />
-                <div className="relative flex pt-2 justify-between">
-                  <p>Total All Price</p>
-                  <p>
-                    {totalPrice.toLocaleString("id-ID", {
-                      style: "currency",
-                      currency: "USD",
-                    })}
-                  </p>
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
+        )}
+        <DisplayCart totalPrice={totalPrice} products={products} cart={cart} />
       </div>
     </div>
   );
