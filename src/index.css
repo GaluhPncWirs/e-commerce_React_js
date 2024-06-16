@@ -14,4 +14,8 @@
   .formButton {
     @apply text-blue-900 cursor-pointer inline-block font-medium mt-3 hover:underline ml-1 text-sm;
   }
+
+  .buttonCart {
+    @apply border text-slate-100 rounded-lg bg-slate-800 px-3 py-0.5;
+  }
 }

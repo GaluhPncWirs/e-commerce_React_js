@@ -85,7 +85,12 @@ export default function Products() {
             </div>
           </div>
         )}
-        <DisplayCart totalPrice={totalPrice} products={products} cart={cart} />
+        <DisplayCart
+          totalPrice={totalPrice}
+          products={products}
+          cart={cart}
+          setCart={setCart}
+        />
       </div>
     </div>
   );

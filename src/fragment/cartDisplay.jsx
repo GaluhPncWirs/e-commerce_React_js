@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export default function DisplayCart({ totalPrice, products, cart }) {
+export default function DisplayCart({ totalPrice, products, cart, setCart }) {
   const [displayCart, setDisplayCart] = useState(false);
 
   function handleDisplayCart() {
@@ -22,7 +22,7 @@ export default function DisplayCart({ totalPrice, products, cart }) {
         </span>
       </div>
       {displayCart && (
-        <div className="w-2/5 fixed bottom-20 bg-blue-300 z-[9999] right-5 rounded-lg opacity-95 max-h-96 overflow-auto">
+        <div className="w-2/5 fixed bottom-20 bg-blue-300 z-[9999] right-5 rounded-lg opacity-95 max-h-[400px] overflow-auto">
           <div className="px-5 pb-7 pt-4">
             <div
               className="flex justify-end cursor-pointer"
@@ -32,62 +32,80 @@ export default function DisplayCart({ totalPrice, products, cart }) {
                 close
               </span>
             </div>
-            <h1 className="text-2xl font-bold mb-5 text-center text-blue-500">
+            <h1 className="text-3xl font-bold mb-5 text-center text-blue-500">
               Cart
             </h1>
-            <div>
-              <table className="text-left table-auto border-separate border-spacing-x-5 border-spacing-y-1">
-                <thead>
-                  <tr>
-                    <td>Qty</td>
-                    <td>Product Name</td>
-                    <td>Price</td>
-                    <td>Total</td>
-                  </tr>
-                </thead>
-                <tbody>
-                  {products.length > 0 &&
-                    cart.map((item) => {
-                      const product = products.find(
-                        (product) => product.id === item.id
-                      );
-                      return (
-                        <tr key={item.key}>
-                          <td>{item.qty}</td>
-                          <td>{product.title.substring(0, 20)}...</td>
-                          <td>
-                            {product.price.toLocaleString("id-ID", {
-                              style: "currency",
-                              currency: "USD",
-                            })}
-                          </td>
-                          <td>
-                            {(item.qty * product.price).toLocaleString(
-                              "id-ID",
-                              {
+            {cart.length <= 0 ? (
+              <h1 className="text-xl font-semibold text-center">
+                You haven't Added a Product to Your Cart
+              </h1>
+            ) : (
+              <div>
+                <table className="text-left table-auto border-separate border-spacing-x-5 border-spacing-y-1">
+                  <thead>
+                    <tr>
+                      <td className="opacity-0">D</td>
+                      <td>Qty</td>
+                      <td>Product Name</td>
+                      <td>Price</td>
+                      <td>Total</td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {products.length > 0 &&
+                      cart.map((item) => {
+                        const product = products.find(
+                          (product) => product.id === item.id
+                        );
+                        return (
+                          <tr key={item.key}>
+                            <td>
+                              <button className="font-semibold text-3xl text-red-600 mb-1">
+                                -
+                              </button>
+                            </td>
+                            <td>{item.qty}</td>
+                            <td>{product.title.substring(0, 20)}...</td>
+                            <td>
+                              {product.price.toLocaleString("id-ID", {
                                 style: "currency",
                                 currency: "USD",
-                              }
-                            )}
-                          </td>
-                        </tr>
-                      );
-                    })}
-                </tbody>
-              </table>
-              <div className="mt-2">
-                <hr className="border-black border-b w-full" />
-                <div className="relative flex pt-2 justify-between">
-                  <p>Total All Price</p>
-                  <p>
-                    {totalPrice.toLocaleString("id-ID", {
-                      style: "currency",
-                      currency: "USD",
-                    })}
-                  </p>
+                              })}
+                            </td>
+                            <td>
+                              {(item.qty * product.price).toLocaleString(
+                                "id-ID",
+                                {
+                                  style: "currency",
+                                  currency: "USD",
+                                }
+                              )}
+                            </td>
+                          </tr>
+                        );
+                      })}
+                  </tbody>
+                </table>
+                <div className="mt-2">
+                  <hr className="border-black border-b w-full" />
+                  <div className="relative flex pt-2 justify-between">
+                    <p>Total All Price</p>
+                    <p>
+                      {totalPrice.toLocaleString("id-ID", {
+                        style: "currency",
+                        currency: "USD",
+                      })}
+                    </p>
+                  </div>
+                </div>
+                <div className="flex justify-around mt-5">
+                  <button className="buttonCart">Buy now</button>
+                  <button className="buttonCart" onClick={() => setCart([])}>
+                    Delete all cart
+                  </button>
                 </div>
               </div>
-            </div>
+            )}
           </div>
         </div>
       )}
