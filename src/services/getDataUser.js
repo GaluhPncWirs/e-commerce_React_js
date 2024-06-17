@@ -15,5 +15,5 @@ export function userLogin(dataUserSend, callBackUser) {
 }
 
 export function getUsername(getItem) {
-  return jwtDecode(getItem).user;
+  return jwtDecode(getItem);
 }

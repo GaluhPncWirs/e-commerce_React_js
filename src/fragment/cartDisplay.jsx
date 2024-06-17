@@ -11,6 +11,23 @@ export default function DisplayCart({ totalPrice, products, cart, setCart }) {
     setDisplayCart(false);
   }
 
+  function handleRemoveFromCart(id) {
+    const findId = cart.find((item) => item.id === id);
+    if (findId) {
+      if (findId.qty > 1) {
+        setCart(
+          cart.map((quantity) =>
+            quantity.id === id
+              ? { ...quantity, qty: (quantity.qty -= 1) }
+              : quantity
+          )
+        );
+      } else {
+        setCart([]);
+      }
+    }
+  }
+
   return (
     <div>
       <div
@@ -37,7 +54,7 @@ export default function DisplayCart({ totalPrice, products, cart, setCart }) {
             </h1>
             {cart.length <= 0 ? (
               <h1 className="text-xl font-semibold text-center">
-                You haven't Added a Product to Your Cart
+                You haven't Added a Product to Cart
               </h1>
             ) : (
               <div>
@@ -60,7 +77,10 @@ export default function DisplayCart({ totalPrice, products, cart, setCart }) {
                         return (
                           <tr key={item.key}>
                             <td>
-                              <button className="font-semibold text-3xl text-red-600 mb-1">
+                              <button
+                                className="font-semibold text-3xl text-red-600 mb-1"
+                                onClick={() => handleRemoveFromCart(product.id)}
+                              >
                                 -
                               </button>
                             </td>
