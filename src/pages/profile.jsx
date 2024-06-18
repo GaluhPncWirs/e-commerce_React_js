@@ -1,8 +1,25 @@
 import { Link } from "react-router-dom";
 import Navbar from "../fragment/navbar";
 import { useLogin } from "../hooks/useLogin";
+import { useState } from "react";
+import { useEffect } from "react";
 
 export default function ProfileUser() {
+  const [bar, setBar] = useState("");
+  useEffect(() => {
+    const navigate = document.querySelectorAll(".navigate li");
+    navigate.forEach((nav) => {
+      nav.addEventListener("click", function (event) {
+        setBar(event.target.getAttribute("data"));
+        navigate.forEach((item) => item.classList.remove("bgProfile"));
+        this.classList.add("bgProfile");
+      });
+    });
+    return () => {
+      navigate.forEach((item) => item.removeEventListener("click", () => {}));
+    };
+  }, []);
+
   return (
     <div>
       <Navbar />
@@ -29,29 +46,36 @@ export default function ProfileUser() {
               </ul>
             </div>
           </div>
-          <div className="bg-blue-300">
-            <ul className="flex justify-around font-semibold pt-8 pb-2 relative">
-              <li className="cursor-pointer">
-                <span className="material-symbols-outlined absolute top-1.5 left-16 text-blue-700">
+          <div className="bg-blue-300 h-12">
+            <ul className="flex font-semibold relative h-full navigate">
+              <li className="profileBar bgProfile" data="kesatu">
+                <span className="material-symbols-outlined absolute top-1 left-14 text-blue-700">
                   receipt_long
                 </span>
                 Total Spend
               </li>
-              <li className="cursor-pointer">
+              <li className="profileBar" data="kedua">
                 {" "}
-                <span className="material-symbols-outlined absolute top-1.5 right-[173px] text-blue-700">
+                <span className="material-symbols-outlined absolute top-1 right-[185px] text-blue-700">
                   payments
                 </span>
                 Pay Later
               </li>
-              <li className="cursor-pointer">
-                <span className="material-symbols-outlined absolute top-1.5 right-12 text-blue-700">
+              <li className="profileBar" data="ketiga">
+                <span className="material-symbols-outlined absolute top-1 right-[54px] text-blue-700">
                   wallet
                 </span>{" "}
                 E-Wallet
               </li>
             </ul>
           </div>
+          {bar === "kesatu" ? (
+            <div>Total all product you buy </div>
+          ) : bar === "kedua" ? (
+            <div>Total paylater you </div>
+          ) : (
+            <div>Total wallet You </div>
+          )}
           {/* <div className="text-center">
             <Link className="bg-slate-300 px-3 py-1 rounded-lg" to="/products">
               Back

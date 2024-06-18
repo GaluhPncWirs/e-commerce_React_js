@@ -18,4 +18,12 @@
   .buttonCart {
     @apply border text-slate-100 rounded-lg bg-slate-800 px-3 py-0.5;
   }
+
+  .profileBar {
+    @apply cursor-pointer basis-1/3 flex justify-center items-end text-sm;
+  }
+
+  .bgProfile {
+    @apply bg-emerald-400 transition-all shadow-md shadow-slate-500;
+  }
 }
