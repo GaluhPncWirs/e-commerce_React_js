@@ -16,7 +16,10 @@ export default function Navbar() {
           </h1>
         </div>
         <div className="basis-2/3 flex justify-end items-center gap-10">
-          <Link className="hover:text-slate-500" to="/profile">
+          <Link
+            className="hover:text-blue-900 font-medium capitalize tracking-wide text-lg"
+            to="/profile"
+          >
             Hello {useLogin().user}
           </Link>
           <div className="mr-10 border border-white rounded-lg hover:bg-blue-500">

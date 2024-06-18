@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { useState } from "react";
 
 export default function DisplayCart({ totalPrice, products, cart, setCart }) {
@@ -23,9 +24,13 @@ export default function DisplayCart({ totalPrice, products, cart, setCart }) {
           )
         );
       } else {
-        setCart([]);
+        setCart(cart.filter((item) => item.id !== id));
       }
     }
+  }
+
+  function buyNow() {
+    return localStorage.setItem("product", JSON.stringify(cart));
   }
 
   return (
@@ -119,7 +124,9 @@ export default function DisplayCart({ totalPrice, products, cart, setCart }) {
                   </div>
                 </div>
                 <div className="flex justify-around mt-5">
-                  <button className="buttonCart">Buy now</button>
+                  <button className="buttonCart" onClick={buyNow}>
+                    Buy now
+                  </button>
                   <button className="buttonCart" onClick={() => setCart([])}>
                     Delete all cart
                   </button>

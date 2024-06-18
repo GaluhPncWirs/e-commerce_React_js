@@ -78,7 +78,7 @@ export default function Products() {
         </div>
         {notificationCart && (
           <div className="flex justify-center">
-            <div className="w-52 bg-slate-300 top-16 py-2 px-5 rounded-b-lg fixed z-[9999]">
+            <div className="w-52 bg-slate-300 top-20 py-2 px-5 rounded-b-lg fixed z-[9999]">
               <h2 className="text-center font-semibold">
                 Already Added To Cart
               </h2>
