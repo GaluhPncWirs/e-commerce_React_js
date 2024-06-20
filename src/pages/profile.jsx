@@ -11,7 +11,11 @@ export default function ProfileUser() {
     navigate.forEach((nav) => {
       nav.addEventListener("click", function (event) {
         setBar(event.target.getAttribute("data"));
-        navigate.forEach((item) => item.classList.remove("bgProfile"));
+        navigate.forEach((item) =>
+          item.classList.contains("bgProfile")
+            ? item.classList.remove("bgProfile")
+            : null
+        );
         this.classList.add("bgProfile");
       });
     });
@@ -76,11 +80,11 @@ export default function ProfileUser() {
           ) : (
             <div>Total wallet You </div>
           )}
-          {/* <div className="text-center">
+          <div className="text-center">
             <Link className="bg-slate-300 px-3 py-1 rounded-lg" to="/products">
               Back
             </Link>
-          </div> */}
+          </div>
         </div>
       </div>
     </div>

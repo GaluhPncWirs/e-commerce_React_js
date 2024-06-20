@@ -3,6 +3,7 @@ import { useState } from "react";
 
 export default function DisplayCart({ totalPrice, products, cart, setCart }) {
   const [displayCart, setDisplayCart] = useState(false);
+  const [displayBuy, setDisplayBuy] = useState(false);
 
   function handleDisplayCart() {
     setDisplayCart(true);
@@ -30,8 +31,15 @@ export default function DisplayCart({ totalPrice, products, cart, setCart }) {
   }
 
   function buyNow() {
+    setDisplayBuy(true);
     return localStorage.setItem("product", JSON.stringify(cart));
   }
+
+  useEffect(() => {
+    setTimeout(() => {
+      setDisplayBuy(false);
+    }, 3000);
+  }, [displayBuy]);
 
   return (
     <div>
@@ -136,6 +144,15 @@ export default function DisplayCart({ totalPrice, products, cart, setCart }) {
           </div>
         </div>
       )}
+      <div
+        className={`w-1/3 h-14 bg-slate-400 z-[9999] fixed top-1/2 rounded-lg pt-3 left-1/3 ${
+          displayBuy === true ? `visible` : `invisible`
+        }`}
+      >
+        <h1 className="font-bold text-xl text-center">
+          Successful purchase of products
+        </h1>
+      </div>
     </div>
   );
 }
