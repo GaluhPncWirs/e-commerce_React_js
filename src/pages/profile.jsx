@@ -3,26 +3,34 @@ import Navbar from "../fragment/navbar";
 import { useLogin } from "../hooks/useLogin";
 import { useState } from "react";
 import { useEffect } from "react";
+import AllProductBuy from "../component/allProductBuy";
+import { fakeStoreApi } from "../services/getDataApi";
 
 export default function ProfileUser() {
-  const [bar, setBar] = useState("");
+  const [bar, setBar] = useState(null);
+  const [getProduk, setGetProduk] = useState([]);
   useEffect(() => {
     const navigate = document.querySelectorAll(".navigate li");
-    navigate.forEach((nav) => {
-      nav.addEventListener("click", function (event) {
-        setBar(event.target.getAttribute("data"));
-        navigate.forEach((item) =>
-          item.classList.contains("bgProfile")
-            ? item.classList.remove("bgProfile")
-            : null
-        );
-        this.classList.add("bgProfile");
+    function navClick(event) {
+      setBar(event.target.getAttribute("data"));
+      navigate.forEach((nav) => {
+        nav.classList.remove("bgProfile");
       });
-    });
+      this.classList.add("bgProfile");
+    }
+
+    navigate.forEach((item) => item.addEventListener("click", navClick));
     return () => {
-      navigate.forEach((item) => item.removeEventListener("click", () => {}));
+      navigate.forEach((item) => item.removeEventListener("click", navClick));
     };
   }, []);
+
+  useEffect(() => {
+    fakeStoreApi((getData) => setGetProduk(getData));
+  }, []);
+
+  // const getitem = JSON.parse(localStorage.getItem("product")).map((a) => a.qty);
+  // console.log(getitem);
 
   return (
     <div>
@@ -73,14 +81,14 @@ export default function ProfileUser() {
               </li>
             </ul>
           </div>
-          {bar === "kesatu" ? (
-            <div>Total all product you buy </div>
-          ) : bar === "kedua" ? (
-            <div>Total paylater you </div>
+          {bar === "kedua" ? (
+            <div>Total paylater you</div>
+          ) : bar === "ketiga" ? (
+            <div>Total wallet You</div>
           ) : (
-            <div>Total wallet You </div>
+            <AllProductBuy />
           )}
-          <div className="text-center">
+          <div className="text-center mt-2">
             <Link className="bg-slate-300 px-3 py-1 rounded-lg" to="/products">
               Back
             </Link>

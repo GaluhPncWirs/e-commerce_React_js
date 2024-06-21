@@ -1,7 +1,7 @@
 import { useState } from "react";
-import FormUser from "../componentForm/formUserLogin";
-import FormButton from "../componentForm/buttonForm";
-import TextRegister from "../componentForm/textParagrafRegister";
+import FormUser from "../component/formUserLogin";
+import FormButton from "../component/buttonForm";
+import TextRegister from "../component/textParagrafRegister";
 
 export default function FormInputUserRegister() {
   const [isFocusEmail, setIsFocusEmail] = useState(false);

@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
-import FormUser from "../componentForm/formUserLogin";
-import FormButton from "../componentForm/buttonForm";
-import TextLogin from "../componentForm/textParagrafLogin";
+import FormUser from "../component/formUserLogin";
+import FormButton from "../component/buttonForm";
+import TextLogin from "../component/textParagrafLogin";
 import { userLogin } from "../services/getDataUser";
 
 export default function FormInputUserLogin() {
