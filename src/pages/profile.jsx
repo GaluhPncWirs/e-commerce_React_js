@@ -7,12 +7,33 @@ import AllProductBuy from "../component/allProductBuy";
 import { fakeStoreApi } from "../services/getDataApi";
 
 export default function ProfileUser() {
-  const [bar, setBar] = useState(null);
+  const [bar, setBar] = useState("");
   const [getProduk, setGetProduk] = useState([]);
+  const [getDataToApi, setGetDataToApi] = useState([]);
+  const [displayPrice, setDisplayPrice] = useState(0);
+
+  useEffect(() => {
+    setGetProduk(JSON.parse(localStorage.getItem("product")) || []);
+  }, []);
+
+  useEffect(() => {
+    fakeStoreApi((getData) => setGetDataToApi(getData));
+  }, []);
+
+  useEffect(() => {
+    let sum = 0;
+    for (const i of getProduk) {
+      const findId = getDataToApi.find((identity) => identity.id === i.id);
+      if (findId) {
+        sum += i.qty * findId.price;
+      }
+    }
+    setDisplayPrice(sum);
+  }, [getProduk, getDataToApi]);
+
   useEffect(() => {
     const navigate = document.querySelectorAll(".navigate li");
-    function navClick(event) {
-      setBar(event.target.getAttribute("data"));
+    function navClick() {
       navigate.forEach((nav) => {
         nav.classList.remove("bgProfile");
       });
@@ -25,12 +46,9 @@ export default function ProfileUser() {
     };
   }, []);
 
-  useEffect(() => {
-    fakeStoreApi((getData) => setGetProduk(getData));
-  }, []);
-
-  // const getitem = JSON.parse(localStorage.getItem("product")).map((a) => a.qty);
-  // console.log(getitem);
+  function handleNavBar(event) {
+    setBar(event);
+  }
 
   return (
     <div>
@@ -60,20 +78,23 @@ export default function ProfileUser() {
           </div>
           <div className="bg-blue-300 h-12">
             <ul className="flex font-semibold relative h-full navigate">
-              <li className="profileBar bgProfile" data="kesatu">
+              <li
+                className="profileBar bgProfile"
+                onClick={() => handleNavBar("kesatu")}
+              >
                 <span className="material-symbols-outlined absolute top-1 left-14 text-blue-700">
                   receipt_long
                 </span>
                 Total Spend
               </li>
-              <li className="profileBar" data="kedua">
+              <li className="profileBar" onClick={() => handleNavBar("kedua")}>
                 {" "}
                 <span className="material-symbols-outlined absolute top-1 right-[185px] text-blue-700">
                   payments
                 </span>
                 Pay Later
               </li>
-              <li className="profileBar" data="ketiga">
+              <li className="profileBar" onClick={() => handleNavBar("ketiga")}>
                 <span className="material-symbols-outlined absolute top-1 right-[54px] text-blue-700">
                   wallet
                 </span>{" "}
@@ -81,13 +102,15 @@ export default function ProfileUser() {
               </li>
             </ul>
           </div>
-          {bar === "kedua" ? (
-            <div>Total paylater you</div>
-          ) : bar === "ketiga" ? (
-            <div>Total wallet You</div>
-          ) : (
-            <AllProductBuy />
-          )}
+          <div className="overflow-auto">
+            {bar === "kedua" ? (
+              <div>Total paylater you</div>
+            ) : bar === "ketiga" ? (
+              <div>Total wallet You</div>
+            ) : (
+              <AllProductBuy displayPrice={displayPrice} />
+            )}
+          </div>
           <div className="text-center mt-2">
             <Link className="bg-slate-300 px-3 py-1 rounded-lg" to="/products">
               Back
