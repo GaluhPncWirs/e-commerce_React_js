@@ -1,8 +1,7 @@
 import { Link } from "react-router-dom";
 import Navbar from "../fragment/navbar";
 import { useLogin } from "../hooks/useLogin";
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import AllProductBuy from "../component/allProductBuy";
 import { fakeStoreApi } from "../services/getDataApi";
 
@@ -10,7 +9,8 @@ export default function ProfileUser() {
   const [bar, setBar] = useState("");
   const [getProduk, setGetProduk] = useState([]);
   const [getDataToApi, setGetDataToApi] = useState([]);
-  const [displayPrice, setDisplayPrice] = useState(0);
+  const [displayProduk, setDisplayProduk] = useState([]);
+  const [displayPrice, setDisplayPrice] = useState([]);
 
   useEffect(() => {
     setGetProduk(JSON.parse(localStorage.getItem("product")) || []);
@@ -20,16 +20,36 @@ export default function ProfileUser() {
     fakeStoreApi((getData) => setGetDataToApi(getData));
   }, []);
 
+  function fillterId(id) {
+    return getProduk.find((identity) => identity.id === id);
+  }
+
   useEffect(() => {
-    let sum = 0;
-    for (const i of getProduk) {
-      const findId = getDataToApi.find((identity) => identity.id === i.id);
-      if (findId) {
-        sum += i.qty * findId.price;
+    let storageProduk = [];
+    let storagePrice = [];
+    for (const fil of getDataToApi) {
+      const filtered = fillterId(fil.id);
+      if (filtered) {
+        storageProduk.push(fil.title);
+        storagePrice.push(fil.price);
       }
     }
-    setDisplayPrice(sum);
-  }, [getProduk, getDataToApi]);
+    setDisplayProduk(storageProduk);
+    setDisplayPrice(storagePrice);
+  }, [getDataToApi]);
+
+  // useEffect(() => {
+  //   let sum = 0;
+  //   getProduk.forEach((ele) => {
+  //     const i = getDataToApi.find((a) => a.id === ele.id);
+  //     if (i) {
+  //       sum += ele.qty * i.price;
+  //     }
+  //   });
+  //   setDisplayPrice(sum);
+  // }, [getProduk, getDataToApi]);
+
+  // console.log(Math.floor(displayPrice));
 
   useEffect(() => {
     const navigate = document.querySelectorAll(".navigate li");
@@ -53,12 +73,12 @@ export default function ProfileUser() {
   return (
     <div>
       <Navbar />
-      <div className="w-9/12 mx-auto h-screen flex justify-center items-center">
-        <div className="w-2/5 bg-sky-600 h-3/5 shadow-md shadow-slate-600">
+      <div className="w-9/12 mx-auto h-screen flex justify-center mt-28">
+        <div className="w-1/2 bg-sky-600 h-3/4 shadow-md shadow-slate-600">
           <h1 className="font-semibold text-xl text-center my-1.5">
             Your Profile
           </h1>
-          <div className="flex h-[137px]">
+          <div className="flex h-[170px]">
             <div className="basis-1/3">
               <img src="img/userProfile.png" className="w-full" />
             </div>
@@ -82,37 +102,40 @@ export default function ProfileUser() {
                 className="profileBar bgProfile"
                 onClick={() => handleNavBar("kesatu")}
               >
-                <span className="material-symbols-outlined absolute top-1 left-14 text-blue-700">
+                <span className="material-symbols-outlined absolute top-1 left-[70px] text-blue-700">
                   receipt_long
                 </span>
-                Total Spend
+                Purchase History
               </li>
               <li className="profileBar" onClick={() => handleNavBar("kedua")}>
                 {" "}
-                <span className="material-symbols-outlined absolute top-1 right-[185px] text-blue-700">
+                <span className="material-symbols-outlined absolute top-1 left-[48%] text-blue-700">
                   payments
                 </span>
                 Pay Later
               </li>
               <li className="profileBar" onClick={() => handleNavBar("ketiga")}>
-                <span className="material-symbols-outlined absolute top-1 right-[54px] text-blue-700">
+                <span className="material-symbols-outlined absolute top-1 right-[68px] text-blue-700">
                   wallet
                 </span>{" "}
                 E-Wallet
               </li>
             </ul>
           </div>
-          <div className="overflow-auto">
+          <div className="overflow-auto h-48">
             {bar === "kedua" ? (
               <div>Total paylater you</div>
             ) : bar === "ketiga" ? (
               <div>Total wallet You</div>
             ) : (
-              <AllProductBuy displayPrice={displayPrice} />
+              <AllProductBuy
+                displayPrice={displayPrice}
+                displayProduk={displayProduk}
+              />
             )}
           </div>
-          <div className="text-center mt-2">
-            <Link className="bg-slate-300 px-3 py-1 rounded-lg" to="/products">
+          <div className="flex justify-center items-center h-10">
+            <Link className="bg-slate-300 px-3 rounded-lg" to="/products">
               Back
             </Link>
           </div>

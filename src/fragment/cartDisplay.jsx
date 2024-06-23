@@ -32,6 +32,7 @@ export default function DisplayCart({ totalPrice, products, cart, setCart }) {
 
   function buyNow() {
     setDisplayBuy(true);
+    setCart([]);
     return localStorage.setItem("product", JSON.stringify(cart));
   }
 

@@ -1,14 +1,16 @@
-export default function AllProductBuy({ displayPrice }) {
+export default function AllProductBuy(props) {
+  const { displayPrice, displayProduk } = props;
   return (
     <div className="w-[90%] h-32 mx-auto pt-2">
       <div>
-        <h1>
-          Grand Total :{" "}
-          {displayPrice.toLocaleString("id-ID", {
-            style: "currency",
-            currency: "USD",
-          })}
-        </h1>
+        <h1 className="font-semibold text-lg">Your History :</h1>
+        <div>
+          <ul className="list-decimal ml-4">
+            {displayProduk.map((item) => (
+              <li>{item}</li>
+            ))}
+          </ul>
+        </div>
       </div>
     </div>
   );
