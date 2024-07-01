@@ -1,9 +1,12 @@
-import { useEffect } from "react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export default function DisplayCart({ totalPrice, products, cart, setCart }) {
+export default function DisplayCart(props) {
+  const { totalPrice, products, cart, setCart } = props;
+
   const [displayCart, setDisplayCart] = useState(false);
   const [displayBuy, setDisplayBuy] = useState(false);
+  const [condition, setCondition] = useState("");
+  const [totalCart, setTotalCart] = useState(0);
 
   function handleDisplayCart() {
     setDisplayCart(true);
@@ -12,6 +15,13 @@ export default function DisplayCart({ totalPrice, products, cart, setCart }) {
   function handleDeleteDisplayCart() {
     setDisplayCart(false);
   }
+
+  useEffect(() => {
+    const totalSum = cart.reduce((acc, cur) => {
+      return acc + cur.qty;
+    }, 0);
+    setTotalCart(totalSum);
+  }, [cart]);
 
   function handleRemoveFromCart(id) {
     const findId = cart.find((item) => item.id === id);
@@ -30,9 +40,10 @@ export default function DisplayCart({ totalPrice, products, cart, setCart }) {
     }
   }
 
-  function buyNow() {
+  function buyNow(event) {
     setDisplayBuy(true);
     setCart([]);
+    setCondition(event);
     return localStorage.setItem("product", JSON.stringify(cart));
   }
 
@@ -51,6 +62,13 @@ export default function DisplayCart({ totalPrice, products, cart, setCart }) {
         <span className="material-symbols-outlined text-3xl">
           shopping_cart
         </span>
+        <div
+          className={`flex justify-center items-center absolute w-6 h-6 rounded-full bg-red-500 -top-1 -right-1 animate-bounce ${
+            cart.length > 0 ? `visible` : `invisible`
+          }`}
+        >
+          <span className="font-bold text-lg">{totalCart}</span>
+        </div>
       </div>
       {displayCart && (
         <div className="w-2/5 fixed bottom-20 bg-blue-300 z-[9999] right-5 rounded-lg opacity-95 max-h-[400px] overflow-auto">
@@ -133,8 +151,14 @@ export default function DisplayCart({ totalPrice, products, cart, setCart }) {
                   </div>
                 </div>
                 <div className="flex justify-around mt-5">
-                  <button className="buttonCart" onClick={buyNow}>
+                  <button
+                    className="buttonCart"
+                    onClick={() => buyNow("beliSekarang")}
+                  >
                     Buy now
+                  </button>
+                  <button className="buttonCart" onClick={buyNow}>
+                    Pay Later
                   </button>
                   <button className="buttonCart" onClick={() => setCart([])}>
                     Delete all cart
@@ -150,9 +174,15 @@ export default function DisplayCart({ totalPrice, products, cart, setCart }) {
           displayBuy === true ? `visible` : `invisible`
         }`}
       >
-        <h1 className="font-bold text-xl text-center">
-          Successful purchase of products
-        </h1>
+        {condition === "beliSekarang" ? (
+          <h1 className="font-bold text-xl text-center">
+            Successful purchase of products
+          </h1>
+        ) : (
+          <h1 className="font-bold text-xl text-center">
+            lu belinya pay later cok
+          </h1>
+        )}
       </div>
     </div>
   );

@@ -26,4 +26,8 @@
   .bgProfile {
     @apply bg-emerald-400 transition-all shadow-md shadow-slate-500;
   }
+
+  .btnConfirm {
+    @apply bg-slate-200 px-3 rounded-lg cursor-pointer;
+  }
 }

@@ -2,8 +2,9 @@ import { Link } from "react-router-dom";
 import Navbar from "../fragment/navbar";
 import { useLogin } from "../hooks/useLogin";
 import { useState, useEffect } from "react";
-import AllProductBuy from "../component/allProductBuy";
+import AllProductBuy from "../fragment/allProductBuy";
 import { fakeStoreApi } from "../services/getDataApi";
+import PayLater from "../fragment/payLater";
 
 export default function ProfileUser() {
   const [bar, setBar] = useState("");
@@ -25,31 +26,17 @@ export default function ProfileUser() {
   }
 
   useEffect(() => {
-    let storageProduk = [];
-    let storagePrice = [];
-    for (const fil of getDataToApi) {
-      const filtered = fillterId(fil.id);
-      if (filtered) {
-        storageProduk.push(fil.title);
-        storagePrice.push(fil.price);
-      }
-    }
-    setDisplayProduk(storageProduk);
-    setDisplayPrice(storagePrice);
+    const filtered = getDataToApi.filter((acc) => fillterId(acc.id));
+    setDisplayProduk(filtered.map((a) => a.title));
   }, [getDataToApi]);
 
-  // useEffect(() => {
-  //   let sum = 0;
-  //   getProduk.forEach((ele) => {
-  //     const i = getDataToApi.find((a) => a.id === ele.id);
-  //     if (i) {
-  //       sum += ele.qty * i.price;
-  //     }
-  //   });
-  //   setDisplayPrice(sum);
-  // }, [getProduk, getDataToApi]);
-
-  // console.log(Math.floor(displayPrice));
+  useEffect(() => {
+    const sumPrice = getDataToApi
+      .filter((acc) => fillterId(acc.id))
+      .map((cost) => cost.price)
+      .reduce((acc, cur) => acc + cur, 0);
+    setDisplayPrice(Math.floor(sumPrice));
+  }, [getDataToApi]);
 
   useEffect(() => {
     const navigate = document.querySelectorAll(".navigate li");
@@ -124,14 +111,11 @@ export default function ProfileUser() {
           </div>
           <div className="overflow-auto h-48">
             {bar === "kedua" ? (
-              <div>Total paylater you</div>
+              <PayLater displayPrice={displayPrice} />
             ) : bar === "ketiga" ? (
-              <div>Total wallet You</div>
+              <p>hello world</p>
             ) : (
-              <AllProductBuy
-                displayPrice={displayPrice}
-                displayProduk={displayProduk}
-              />
+              <AllProductBuy displayProduk={displayProduk} />
             )}
           </div>
           <div className="flex justify-center items-center h-10">
