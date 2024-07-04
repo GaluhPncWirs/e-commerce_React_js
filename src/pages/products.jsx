@@ -9,6 +9,7 @@ export default function Products() {
   const [totalPrice, setTotalPrice] = useState(0);
   const [products, setProducts] = useState([]);
   const [notificationCart, setNotificationCart] = useState(false);
+  const [confirm, setConfirm] = useState(false);
 
   function handleAddToCart(id) {
     if (cart.find((item) => item.id === id)) {
@@ -90,6 +91,8 @@ export default function Products() {
           products={products}
           cart={cart}
           setCart={setCart}
+          confirm={confirm}
+          setConfirm={setConfirm}
         />
       </div>
     </div>

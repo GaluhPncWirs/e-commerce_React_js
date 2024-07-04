@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
 export default function DisplayCart(props) {
-  const { totalPrice, products, cart, setCart } = props;
+  const { totalPrice, products, cart, setCart, confirm, setConfirm } = props;
 
   const [displayCart, setDisplayCart] = useState(false);
   const [displayBuy, setDisplayBuy] = useState(false);
@@ -41,10 +41,18 @@ export default function DisplayCart(props) {
   }
 
   function buyNow(event) {
-    setDisplayBuy(true);
-    setCart([]);
+    setConfirm(true);
     setCondition(event);
-    return localStorage.setItem("product", JSON.stringify(cart));
+  }
+
+  function confirmBuy() {
+    setDisplayBuy(true);
+    setConfirm(false);
+    setDisplayCart(false);
+    if (confirm === true) {
+      setCart([]);
+      localStorage.setItem("product", JSON.stringify(cart));
+    }
   }
 
   useEffect(() => {
@@ -169,6 +177,17 @@ export default function DisplayCart(props) {
           </div>
         </div>
       )}
+      <div
+        className={`w-1/3 h-20 bg-slate-400 z-[9999] fixed top-1/2 left-1/3 pt-2 rounded-xl ${
+          confirm === true ? `visible` : `invisible`
+        }`}
+      >
+        <p className="text-center font-semibold text-xl">Are You Sure ?</p>
+        <div className="flex justify-around mt-2 font-medium text-lg">
+          <button onClick={confirmBuy}>Yes</button>
+          <button onClick={() => setConfirm(false)}>No</button>
+        </div>
+      </div>
       <div
         className={`w-1/3 h-14 bg-slate-400 z-[9999] fixed top-1/2 rounded-lg pt-3 left-1/3 ${
           displayBuy === true ? `visible` : `invisible`

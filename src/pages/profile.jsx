@@ -21,21 +21,24 @@ export default function ProfileUser() {
     fakeStoreApi((getData) => setGetDataToApi(getData));
   }, []);
 
-  function fillterId(id) {
-    return getProduk.find((identity) => identity.id === id);
-  }
-
   useEffect(() => {
     const filtered = getDataToApi.filter((acc) => fillterId(acc.id));
     setDisplayProduk(filtered.map((a) => a.title));
   }, [getDataToApi]);
 
+  function fillterId(id) {
+    return getProduk.find((identity) => identity.id === id);
+  }
+
   useEffect(() => {
-    const sumPrice = getDataToApi
-      .filter((acc) => fillterId(acc.id))
-      .map((cost) => cost.price)
-      .reduce((acc, cur) => acc + cur, 0);
-    setDisplayPrice(Math.floor(sumPrice));
+    let sum = 0;
+    for (const i of getDataToApi) {
+      const sumPrice = fillterId(i.id);
+      if (sumPrice) {
+        sum += i.price * sumPrice.qty;
+      }
+    }
+    setDisplayPrice(Math.floor(sum));
   }, [getDataToApi]);
 
   useEffect(() => {
