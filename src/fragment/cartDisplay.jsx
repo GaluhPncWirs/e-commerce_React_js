@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 
 export default function DisplayCart(props) {
-  const { totalPrice, products, cart, setCart, confirm, setConfirm } = props;
+  const { products, cart, confirm, setConfirm } = props;
 
   const [displayCart, setDisplayCart] = useState(false);
   const [displayBuy, setDisplayBuy] = useState(false);
   const [condition, setCondition] = useState("");
   const [totalCart, setTotalCart] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
+  // const dispatchQty = useDispatch();
 
   function handleDisplayCart() {
     setDisplayCart(true);
@@ -16,6 +18,18 @@ export default function DisplayCart(props) {
     setDisplayCart(false);
   }
 
+  console.log(cart);
+
+  useEffect(() => {
+    if (cart.length > 0) {
+      const sum = cart.reduce((acc, current) => {
+        const produk = products.find((item) => item.id === current.id);
+        return acc + current.qty * produk.price;
+      }, 0);
+      setTotalPrice(sum);
+    }
+  }, [cart]);
+
   useEffect(() => {
     const totalSum = cart.reduce((acc, cur) => {
       return acc + cur.qty;
@@ -23,21 +37,9 @@ export default function DisplayCart(props) {
     setTotalCart(totalSum);
   }, [cart]);
 
-  function handleRemoveFromCart(id) {
-    const findId = cart.find((item) => item.id === id);
-    if (findId) {
-      if (findId.qty > 1) {
-        setCart(
-          cart.map((quantity) =>
-            quantity.id === id
-              ? { ...quantity, qty: (quantity.qty -= 1) }
-              : quantity
-          )
-        );
-      } else {
-        setCart(cart.filter((item) => item.id !== id));
-      }
-    }
+  function handleRemoveFromCart() {
+    // dispatchQty(removeQty);
+    console.log("halo");
   }
 
   function buyNow(event) {
@@ -50,7 +52,6 @@ export default function DisplayCart(props) {
     setConfirm(false);
     setDisplayCart(false);
     if (confirm === true) {
-      setCart([]);
       localStorage.setItem("product", JSON.stringify(cart));
     }
   }
@@ -115,7 +116,7 @@ export default function DisplayCart(props) {
                           (product) => product.id === item.id
                         );
                         return (
-                          <tr key={item.key}>
+                          <tr key={item.id}>
                             <td>
                               <button
                                 className="font-semibold text-3xl text-red-600 mb-1"

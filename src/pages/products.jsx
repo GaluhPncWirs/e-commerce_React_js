@@ -3,57 +3,27 @@ import Navbar from "../fragment/navbar";
 import { useState, useEffect } from "react";
 import { fakeStoreApi } from "../services/getDataApi";
 import DisplayCart from "../fragment/cartDisplay";
+import { useSelector, useDispatch } from "react-redux";
+import { cartNotification } from "../redux/slices/noficationCart";
 
 export default function Products() {
-  const [cart, setCart] = useState([]);
-  const [totalPrice, setTotalPrice] = useState(0);
+  const cart = useSelector((state) => state.cart.dataCart);
+  const notificationDispatch = useDispatch();
+  const getNotif = useSelector((state) => state.notification.status);
   const [products, setProducts] = useState([]);
-  const [notificationCart, setNotificationCart] = useState(false);
   const [confirm, setConfirm] = useState(false);
-
-  function handleAddToCart(id) {
-    if (cart.find((item) => item.id === id)) {
-      setCart(
-        cart.map((jumlahBarang) =>
-          jumlahBarang.id === id
-            ? { ...jumlahBarang, qty: jumlahBarang.qty + 1 }
-            : jumlahBarang
-        )
-      );
-    } else {
-      setCart([
-        ...cart,
-        {
-          key: Math.random() * 100,
-          id: id,
-          qty: 1,
-        },
-      ]);
-    }
-    setNotificationCart(true);
-  }
 
   useEffect(() => {
     setTimeout(() => {
-      setNotificationCart(false);
+      notificationDispatch(cartNotification({ status: false }));
     }, 3000);
-  }, [notificationCart]);
+  }, [cart]);
 
   useEffect(() => {
     fakeStoreApi((data) => {
       setProducts(data);
     });
   }, []);
-
-  useEffect(() => {
-    if (cart.length > 0) {
-      const sum = cart.reduce((acc, current) => {
-        const produk = products.find((item) => item.id === current.id);
-        return acc + current.qty * produk.price;
-      }, 0);
-      setTotalPrice(sum);
-    }
-  }, [cart]);
 
   return (
     <div>
@@ -71,13 +41,13 @@ export default function Products() {
                 <CardProduct.Body>{product.description}</CardProduct.Body>
                 <CardProduct.Footer
                   price={product.price}
-                  handleAddToCart={handleAddToCart}
                   id={product.id}
+                  notificationDispatch={notificationDispatch}
                 />
               </CardProduct>
             ))}
         </div>
-        {notificationCart && (
+        {getNotif.status && (
           <div className="flex justify-center">
             <div className="w-52 bg-slate-300 top-20 py-2 px-5 rounded-b-lg fixed z-[9999]">
               <h2 className="text-center font-semibold">
@@ -87,10 +57,8 @@ export default function Products() {
           </div>
         )}
         <DisplayCart
-          totalPrice={totalPrice}
           products={products}
           cart={cart}
-          setCart={setCart}
           confirm={confirm}
           setConfirm={setConfirm}
         />

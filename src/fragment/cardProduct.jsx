@@ -1,4 +1,7 @@
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../redux/slices/cartSlice";
+import { cartNotification } from "../redux/slices/noficationCart";
 
 export default function CardProduct(props) {
   const { children } = props;
@@ -34,7 +37,12 @@ function Body({ children }) {
   );
 }
 
-function Footer({ price, handleAddToCart, id }) {
+function Footer({ price, id, notificationDispatch }) {
+  const dispatch = useDispatch();
+  function handleAddToCart() {
+    dispatch(addToCart({ id: id, qty: 1 }));
+    notificationDispatch(cartNotification({ status: true }));
+  }
   return (
     <div className="flex justify-between items-center mt-4 px-4">
       <h4 className="font-semibold text-xl tracking-wide">
@@ -42,7 +50,7 @@ function Footer({ price, handleAddToCart, id }) {
       </h4>
       <button
         className="bg-blue-500 rounded-md px-5 py-0.5 font-medium hover:bg-blue-600"
-        onClick={() => handleAddToCart(id)}
+        onClick={handleAddToCart}
       >
         Add To Cart
       </button>
