@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
-import Navbar from "../fragment/navbar";
 import { useParams } from "react-router-dom";
 import { detailProduck } from "../services/getDataApi";
 import { Link } from "react-router-dom";
+import Navbar from "../layout/navbar";
 
 export default function ProductDetail() {
   const { id } = useParams();

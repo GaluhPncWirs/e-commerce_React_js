@@ -16,9 +16,22 @@ const manipulateCart = createSlice({
         state.dataCart.push(action.payload);
       }
     },
+    reductionQty: (state, action) => {
+      const findId = state.dataCart.find(
+        (item) => item.id === action.payload.id
+      );
+      if (findId) {
+        if (findId.qty > 1) {
+          findId.qty -= 1;
+        } else {
+          state.dataCart = state.dataCart.filter(
+            (qty) => qty.id !== action.payload.id
+          );
+        }
+      }
+    },
   },
 });
 
-export const { addToCart } = manipulateCart.actions;
-export const selectDataCart = (state) => state.cart.dataCart;
+export const { addToCart, reductionQty } = manipulateCart.actions;
 export default manipulateCart.reducer;

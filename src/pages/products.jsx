@@ -1,5 +1,5 @@
 import CardProduct from "../fragment/cardProduct";
-import Navbar from "../fragment/navbar";
+import Navbar from "../layout/navbar";
 import { useState, useEffect } from "react";
 import { fakeStoreApi } from "../services/getDataApi";
 import DisplayCart from "../fragment/cartDisplay";

@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
-import Navbar from "../fragment/navbar";
 import { useLogin } from "../hooks/useLogin";
 import { useState, useEffect } from "react";
 import AllProductBuy from "../fragment/allProductBuy";
 import { fakeStoreApi } from "../services/getDataApi";
 import PayLater from "../fragment/payLater";
+import Navbar from "../layout/navbar";
 
 export default function ProfileUser() {
   const [bar, setBar] = useState("");
@@ -68,7 +68,7 @@ export default function ProfileUser() {
           <h1 className="font-semibold text-xl text-center my-1.5">
             Your Profile
           </h1>
-          <div className="flex h-[170px]">
+          <div className="flex h-[158px]">
             <div className="basis-1/3">
               <img src="img/userProfile.png" className="w-full" />
             </div>

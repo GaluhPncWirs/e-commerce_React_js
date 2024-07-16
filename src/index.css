@@ -4,15 +4,15 @@
 
 @layer components {
   .inputUser ~ p {
-    @apply -translate-y-6 scale-90 z-50 px-3 bg-blue-300;
+    @apply -translate-y-6 scale-90 z-50 px-3;
   }
 
   .inputForm {
-    @apply border rounded-xl py-3.5 w-full pl-4 outline-none bg-blue-300 text-base;
+    @apply border rounded-xl py-3.5 w-full pl-4 outline-none text-base;
   }
 
   .formButton {
-    @apply text-blue-900 cursor-pointer inline-block font-medium mt-3 hover:underline ml-1 text-sm;
+    @apply text-blue-800 cursor-pointer inline-block font-medium mt-3 hover:underline ml-1 text-sm;
   }
 
   .buttonCart {
@@ -29,5 +29,9 @@
 
   .btnConfirm {
     @apply bg-slate-200 px-3 rounded-lg cursor-pointer;
+  }
+
+  #darkMode:checked ~ label div.core {
+    @apply translate-x-7;
   }
 }

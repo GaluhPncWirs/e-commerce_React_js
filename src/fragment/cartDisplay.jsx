@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { reductionQty } from "../redux/slices/cartSlice";
 
 export default function DisplayCart(props) {
   const { products, cart, confirm, setConfirm } = props;
@@ -8,7 +10,8 @@ export default function DisplayCart(props) {
   const [condition, setCondition] = useState("");
   const [totalCart, setTotalCart] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
-  // const dispatchQty = useDispatch();
+  const dispatch = useDispatch()
+
 
   function handleDisplayCart() {
     setDisplayCart(true);
@@ -17,8 +20,6 @@ export default function DisplayCart(props) {
   function handleDeleteDisplayCart() {
     setDisplayCart(false);
   }
-
-  console.log(cart);
 
   useEffect(() => {
     if (cart.length > 0) {
@@ -37,9 +38,8 @@ export default function DisplayCart(props) {
     setTotalCart(totalSum);
   }, [cart]);
 
-  function handleRemoveFromCart() {
-    // dispatchQty(removeQty);
-    console.log("halo");
+  function handleRemoveFromCart(itemId) {
+    dispatch(reductionQty({id: itemId}))
   }
 
   function buyNow(event) {

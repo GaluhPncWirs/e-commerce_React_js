@@ -6,7 +6,7 @@ import { cartNotification } from "../redux/slices/noficationCart";
 export default function CardProduct(props) {
   const { children } = props;
   return (
-    <div className="max-w-sm bg-neutral-700 rounded-lg py-5 text-white flex flex-col justify-between hover:bg-neutral-600">
+    <div className="max-w-xs bg-neutral-700 rounded-lg py-5 text-white flex flex-col justify-between hover:bg-neutral-600">
       {children}
     </div>
   );

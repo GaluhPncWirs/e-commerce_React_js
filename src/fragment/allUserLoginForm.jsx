@@ -4,7 +4,7 @@ import FormButton from "../component/buttonForm";
 import TextLogin from "../component/textParagrafLogin";
 import { userLogin } from "../services/getDataUser";
 
-export default function FormInputUserLogin() {
+export default function FormInputUserLogin({ darkMode }) {
   const [isFocusUsername, setIsFocusUsername] = useState(false);
   const [isFocusPass, setIsFocusPass] = useState(false);
   const [usernameValue, setUsernameValue] = useState("");
@@ -50,11 +50,13 @@ export default function FormInputUserLogin() {
             onChange={(e) => setUsernameValue(e.target.value)}
             onFocus={() => setIsFocusUsername(true)}
             ref={focusRef}
+            darkMode={darkMode}
           />
           <TextLogin
             textForm="Username"
             isFocus={isFocusUsername}
             childern={usernameValue}
+            darkMode={darkMode}
           />
         </div>
         <div className="mt-5">
@@ -64,15 +66,17 @@ export default function FormInputUserLogin() {
             onBlur={handelPassBlur}
             onChange={(e) => setPassword(e.target.value)}
             onFocus={() => setIsFocusPass(true)}
+            darkMode={darkMode}
           />
           <TextLogin
             textForm="Password"
             isFocus={isFocusPass}
             childern={password}
+            darkMode={darkMode}
           />
         </div>
       </div>
-      <FormButton>Login</FormButton>
+      <FormButton darkMode={darkMode}>Login</FormButton>
     </form>
   );
 }
