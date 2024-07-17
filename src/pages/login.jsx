@@ -1,38 +1,51 @@
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { DarkMode } from "../context/darkMode";
 import FormInputUserLogin from "../fragment/allUserLoginForm";
 import LayoutForm from "../layout/authLayout";
+import FormInputUserRegister from "../fragment/allUserRegisterForm";
+import BtnDarkMode from "../component/buttonDarkMode";
 
 export default function Login() {
   const { isDarkMode, setIsDarkMode } = useContext(DarkMode);
+  const [textHtml, setTextHtml] = useState("");
+
+  function referenceToTextContent(a) {
+    setTextHtml(a.target.textContent);
+  }
   return (
     <div
-      className={`flex justify-center items-center h-screen ${
+      className={`flex justify-center items-center h-screen flex-col ${
         isDarkMode === true ? `bg-slate-700` : `bg-blue-300`
       }`}
     >
-      <div className="absolute top-5 right-10">
-        <input type="checkbox" className="hidden" id="darkMode" />
-        <label
-          className="cursor-pointer"
-          htmlFor="darkMode"
-          onClick={() => setIsDarkMode(!isDarkMode)}
-        >
-          <div className="bg-blue-200 h-7 w-14 rounded-3xl p-1">
-            <div className="core bg-blue-600 h-5 w-5 rounded-full transition-all duration-200"></div>
-          </div>
-        </label>
-      </div>
-      {/* <button onClick={() => setIsDarkMode(!isDarkMode)}>click me</button> */}
+      <BtnDarkMode isDarkMode={isDarkMode} setIsDarkMode={setIsDarkMode} />
 
       <LayoutForm
-        title="Login"
-        desc="Please Enter Your Account"
-        type="login"
+        title={textHtml === "Sign Up" ? "Sign Up" : "Login"}
+        desc={
+          textHtml === "Sign Up"
+            ? "Welcome, Please Enter Your Detail"
+            : "Please Enter Your Account"
+        }
         darkMode={isDarkMode}
       >
-        <FormInputUserLogin darkMode={isDarkMode} />
+        {textHtml === "Sign Up" ? (
+          <FormInputUserRegister darkMode={isDarkMode} />
+        ) : (
+          <FormInputUserLogin darkMode={isDarkMode} />
+        )}
       </LayoutForm>
+      <p className={`text-sm text-black ${isDarkMode && `text-white`}`}>
+        {textHtml === "Sign Up"
+          ? "Already have an account ?"
+          : "Don't have an account ?"}
+        <button
+          className={`formButton ${isDarkMode && `text-blue-500`}`}
+          onClick={referenceToTextContent}
+        >
+          {textHtml === "Sign Up" ? "Login" : "Sign Up"}
+        </button>
+      </p>
     </div>
   );
 }

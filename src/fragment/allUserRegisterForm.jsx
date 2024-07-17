@@ -3,7 +3,7 @@ import FormUser from "../component/formUserLogin";
 import FormButton from "../component/buttonForm";
 import TextRegister from "../component/textParagrafRegister";
 
-export default function FormInputUserRegister() {
+export default function FormInputUserRegister({ darkMode }) {
   const [isFocusEmail, setIsFocusEmail] = useState(false);
   const [isFocusPass, setIsFocusPass] = useState(false);
   const [isFocusName, setIsFocusName] = useState(false);
@@ -48,73 +48,83 @@ export default function FormInputUserRegister() {
   }
 
   return (
-    <form onSubmit={handleRegister} id="setcontent">
-      <div className="mt-7 relative">
-        <div className="mt-4 relative">
-          <FormUser
-            type="text"
-            value={fullName}
-            onBlur={handelNameBlur}
-            onChange={(e) => setFullName(e.target.value)}
-            onFocus={() => setIsFocusName(true)}
-          />
-          <TextRegister
-            textForm="Full Name"
-            isFocus={isFocusName}
-            childern={fullName}
-          />
+    <>
+      <form onSubmit={handleRegister} id="setcontent">
+        <div className="mt-7 relative">
+          <div className="mt-4 relative">
+            <FormUser
+              type="text"
+              value={fullName}
+              onBlur={handelNameBlur}
+              onChange={(e) => setFullName(e.target.value)}
+              onFocus={() => setIsFocusName(true)}
+              darkMode={darkMode}
+            />
+            <TextRegister
+              textForm="Full Name"
+              isFocus={isFocusName}
+              childern={fullName}
+              darkMode={darkMode}
+            />
+          </div>
+          <div className="mt-5">
+            <FormUser
+              type="text"
+              value={email}
+              onBlur={handelEmailBlur}
+              onChange={(e) => setEmail(e.target.value)}
+              onFocus={() => setIsFocusEmail(true)}
+              darkMode={darkMode}
+            />
+            <TextRegister
+              textForm="Username"
+              isFocus={isFocusEmail}
+              childern={email}
+              darkMode={darkMode}
+            />
+          </div>
+          <div className="mt-5">
+            <FormUser
+              type="password"
+              value={password}
+              onBlur={handelPassBlur}
+              onChange={(e) => setPassword(e.target.value)}
+              onFocus={() => setIsFocusPass(true)}
+              darkMode={darkMode}
+            />
+            <TextRegister
+              textForm="Password"
+              isFocus={isFocusPass}
+              childern={password}
+              darkMode={darkMode}
+            />
+          </div>
+          <div className="mt-5">
+            <FormUser
+              type="password"
+              value={repeatPassword}
+              onBlur={handelRepeatPassBlur}
+              onChange={(e) => setRepeatPassword(e.target.value)}
+              onFocus={() => setIsFocusRepeatPass(true)}
+              darkMode={darkMode}
+            />
+            <TextRegister
+              textForm="Repeat Password"
+              isFocus={isFocusRepeatPass}
+              childern={repeatPassword}
+              darkMode={darkMode}
+            />
+          </div>
         </div>
-        <div className="mt-5">
-          <FormUser
-            type="text"
-            value={email}
-            onBlur={handelEmailBlur}
-            onChange={(e) => setEmail(e.target.value)}
-            onFocus={() => setIsFocusEmail(true)}
-          />
-          <TextRegister
-            textForm="Username"
-            isFocus={isFocusEmail}
-            childern={email}
-          />
-        </div>
-        <div className="mt-5">
-          <FormUser
-            type="password"
-            value={password}
-            onBlur={handelPassBlur}
-            onChange={(e) => setPassword(e.target.value)}
-            onFocus={() => setIsFocusPass(true)}
-          />
-          <TextRegister
-            textForm="Password"
-            isFocus={isFocusPass}
-            childern={password}
-          />
-        </div>
-        <div className="mt-5">
-          <FormUser
-            type="password"
-            value={repeatPassword}
-            onBlur={handelRepeatPassBlur}
-            onChange={(e) => setRepeatPassword(e.target.value)}
-            onFocus={() => setIsFocusRepeatPass(true)}
-          />
-          <TextRegister
-            textForm="Repeat Password"
-            isFocus={isFocusRepeatPass}
-            childern={repeatPassword}
-          />
-        </div>
-      </div>
-      <p
-        className={`text-xs text-red-500 font-semibold mt-1.5 ${
-          password !== repeatPassword ? `visible` : `invisible`
-        }`}
-      >
-        Password Harus Sama dengan Yang Anda Inputkan Sebelumnya
-      </p>
-      <FormButton>Create Account</FormButton>
-    </form>
+        <p
+          className={`text-xs text-red-500 font-semibold mt-1.5 ${
+            password !== repeatPassword ? `visible` : `invisible`
+          }`}
+        >
+          Password Harus Sama dengan Yang Anda Inputkan Sebelumnya
+        </p>
+        <FormButton>Create Account</FormButton>
+      </form>
+    </>
   );
 }
