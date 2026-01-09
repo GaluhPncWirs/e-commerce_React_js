@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import { detailProduck } from "../services/getDataApi";
 import { Link } from "react-router-dom";
 import Navbar from "../layout/navbar";
+import { useDarkMode } from "../context/darkMode";
 
 export default function ProductDetail() {
   const { id } = useParams();
@@ -18,6 +19,8 @@ export default function ProductDetail() {
       count: 0,
     },
   });
+  const { isDarkMode } = useDarkMode();
+
   useEffect(() => {
     detailProduck(id, (res) => {
       setProduk(res);
@@ -26,7 +29,7 @@ export default function ProductDetail() {
 
   return (
     <div>
-      <Navbar />
+      <Navbar isDarkMode={isDarkMode} />
       <div className="w-[60%] mx-auto my-44">
         <div className="flex font-sans">
           <div className="flex-none w-52 relative">

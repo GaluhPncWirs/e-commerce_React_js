@@ -5,6 +5,7 @@ import AllProductBuy from "../fragment/allProductBuy";
 import { fakeStoreApi } from "../services/getDataApi";
 import PayLater from "../fragment/payLater";
 import Navbar from "../layout/navbar";
+import { useDarkMode } from "../context/darkMode";
 
 export default function ProfileUser() {
   const [bar, setBar] = useState("");
@@ -12,6 +13,7 @@ export default function ProfileUser() {
   const [getDataToApi, setGetDataToApi] = useState([]);
   const [displayProduk, setDisplayProduk] = useState([]);
   const [displayPrice, setDisplayPrice] = useState([]);
+  const { isDarkMode } = useDarkMode();
 
   useEffect(() => {
     setGetProduk(JSON.parse(localStorage.getItem("product")) || []);
@@ -62,7 +64,7 @@ export default function ProfileUser() {
 
   return (
     <div>
-      <Navbar />
+      <Navbar isDarkMode={isDarkMode} />
       <div className="w-9/12 mx-auto h-screen flex justify-center mt-28">
         <div className="w-1/2 bg-sky-600 h-3/4 shadow-md shadow-slate-600">
           <h1 className="font-semibold text-xl text-center my-1.5">

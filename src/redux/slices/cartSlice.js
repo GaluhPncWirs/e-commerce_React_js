@@ -30,8 +30,11 @@ const manipulateCart = createSlice({
         }
       }
     },
+    resetCart: (state) => {
+      state.dataCart = [];
+    },
   },
 });
 
-export const { addToCart, reductionQty } = manipulateCart.actions;
+export const { addToCart, reductionQty, resetCart } = manipulateCart.actions;
 export default manipulateCart.reducer;

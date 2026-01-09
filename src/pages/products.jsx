@@ -5,6 +5,7 @@ import { fakeStoreApi } from "../services/getDataApi";
 import DisplayCart from "../fragment/cartDisplay";
 import { useSelector, useDispatch } from "react-redux";
 import { cartNotification } from "../redux/slices/noficationCart";
+import { useDarkMode } from "../context/darkMode";
 
 export default function Products() {
   const cart = useSelector((state) => state.cart.dataCart);
@@ -12,6 +13,7 @@ export default function Products() {
   const getNotif = useSelector((state) => state.notification.status);
   const [products, setProducts] = useState([]);
   const [confirm, setConfirm] = useState(false);
+  const { isDarkMode } = useDarkMode();
 
   useEffect(() => {
     setTimeout(() => {
@@ -26,8 +28,8 @@ export default function Products() {
   }, []);
 
   return (
-    <div>
-      <Navbar />
+    <div className={`${isDarkMode && `bg-slate-700`}`}>
+      <Navbar isDarkMode={isDarkMode} />
       <div className="w-[95%] mx-auto mb-8 relative">
         <div className="flex flex-wrap gap-4 justify-around pt-28">
           {products.length > 0 &&
@@ -43,6 +45,7 @@ export default function Products() {
                   price={product.price}
                   id={product.id}
                   notificationDispatch={notificationDispatch}
+                  isDarkMode={isDarkMode}
                 />
               </CardProduct>
             ))}
@@ -61,6 +64,7 @@ export default function Products() {
           cart={cart}
           confirm={confirm}
           setConfirm={setConfirm}
+          isDarkMode={isDarkMode}
         />
       </div>
     </div>

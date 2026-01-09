@@ -37,7 +37,7 @@ function Body({ children }) {
   );
 }
 
-function Footer({ price, id, notificationDispatch }) {
+function Footer({ price, id, notificationDispatch, isDarkMode }) {
   const dispatch = useDispatch();
   function handleAddToCart() {
     dispatch(addToCart({ id: id, qty: 1 }));
@@ -49,7 +49,9 @@ function Footer({ price, id, notificationDispatch }) {
         {price.toLocaleString("id-ID", { style: "currency", currency: "USD" })}
       </h4>
       <button
-        className="bg-blue-500 rounded-md px-5 py-0.5 font-medium hover:bg-blue-600"
+        className={`bg-blue-500 rounded-md px-5 py-0.5 font-medium hover:bg-blue-600 ${
+          isDarkMode && `bg-slate-500 hover:bg-slate-400`
+        }`}
         onClick={handleAddToCart}
       >
         Add To Cart

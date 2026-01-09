@@ -1,17 +1,18 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
-import { reductionQty } from "../redux/slices/cartSlice";
+import { reductionQty, resetCart } from "../redux/slices/cartSlice";
+import { useRef } from "react";
 
 export default function DisplayCart(props) {
-  const { products, cart, confirm, setConfirm } = props;
+  const { products, cart, confirm, setConfirm, isDarkMode } = props;
 
   const [displayCart, setDisplayCart] = useState(false);
   const [displayBuy, setDisplayBuy] = useState(false);
   const [condition, setCondition] = useState("");
   const [totalCart, setTotalCart] = useState(0);
   const [totalPrice, setTotalPrice] = useState(0);
-  const dispatch = useDispatch()
-
+  const dispatchRemoveCart = useDispatch();
+  const dispatchAllCart = useDispatch();
 
   function handleDisplayCart() {
     setDisplayCart(true);
@@ -39,7 +40,7 @@ export default function DisplayCart(props) {
   }, [cart]);
 
   function handleRemoveFromCart(itemId) {
-    dispatch(reductionQty({id: itemId}))
+    dispatchRemoveCart(reductionQty({ id: itemId }));
   }
 
   function buyNow(event) {
@@ -52,6 +53,7 @@ export default function DisplayCart(props) {
     setConfirm(false);
     setDisplayCart(false);
     if (confirm === true) {
+      dispatchAllCart(resetCart());
       localStorage.setItem("product", JSON.stringify(cart));
     }
   }
@@ -65,10 +67,16 @@ export default function DisplayCart(props) {
   return (
     <div>
       <div
-        className="w-14 h-14 bg-blue-400 rounded-full bottom-5 right-5 fixed flex justify-center items-center z-[9999] cursor-pointer shadow-lg shadow-slate-400 hover:bg-blue-500 opacity-95"
+        className={`w-14 h-14 bg-blue-400 rounded-full bottom-5 right-5 fixed flex justify-center items-center z-[9999] cursor-pointer shadow-lg shadow-slate-400 hover:bg-blue-500 opacity-95 ${
+          isDarkMode && `bg-slate-500 hover:bg-slate-400`
+        }`}
         onClick={handleDisplayCart}
       >
-        <span className="material-symbols-outlined text-3xl">
+        <span
+          className={`material-symbols-outlined text-3xl text-black ${
+            isDarkMode && `text-white`
+          }`}
+        >
           shopping_cart
         </span>
         <div
@@ -80,7 +88,11 @@ export default function DisplayCart(props) {
         </div>
       </div>
       {displayCart && (
-        <div className="w-2/5 fixed bottom-20 bg-blue-300 z-[9999] right-5 rounded-lg opacity-95 max-h-[400px] overflow-auto">
+        <div
+          className={`w-2/5 fixed bottom-20 bg-blue-300 z-[9999] right-5 rounded-lg opacity-95 max-h-[400px] overflow-auto ${
+            isDarkMode && `bg-slate-700`
+          }`}
+        >
           <div className="px-5 pb-7 pt-4">
             <div
               className="flex justify-end cursor-pointer"
@@ -90,16 +102,28 @@ export default function DisplayCart(props) {
                 close
               </span>
             </div>
-            <h1 className="text-3xl font-bold mb-5 text-center text-blue-500">
+            <h1
+              className={`text-3xl font-bold mb-5 text-center text-blue-500 ${
+                isDarkMode && `text-slate-200`
+              }`}
+            >
               Cart
             </h1>
             {cart.length <= 0 ? (
-              <h1 className="text-xl font-semibold text-center">
+              <h1
+                className={`text-xl font-semibold text-center text-black ${
+                  isDarkMode && `text-slate-100`
+                }`}
+              >
                 You haven't Added a Product to Cart
               </h1>
             ) : (
               <div>
-                <table className="text-left table-auto border-separate border-spacing-x-5 border-spacing-y-1">
+                <table
+                  className={`text-left table-auto border-separate border-spacing-x-5 border-spacing-y-1 text-black ${
+                    isDarkMode && `text-slate-200`
+                  }`}
+                >
                   <thead>
                     <tr>
                       <td className="opacity-0">D</td>
@@ -147,7 +171,11 @@ export default function DisplayCart(props) {
                       })}
                   </tbody>
                 </table>
-                <div className="mt-2">
+                <div
+                  className={`mt-2 text-black ${
+                    isDarkMode && `text-slate-200`
+                  }`}
+                >
                   <hr className="border-black border-b w-full" />
                   <div className="relative flex pt-2 justify-between">
                     <p>Total All Price</p>
@@ -169,7 +197,10 @@ export default function DisplayCart(props) {
                   <button className="buttonCart" onClick={buyNow}>
                     Pay Later
                   </button>
-                  <button className="buttonCart" onClick={() => setCart([])}>
+                  <button
+                    className="buttonCart"
+                    onClick={() => dispatchAllCart(resetCart())}
+                  >
                     Delete all cart
                   </button>
                 </div>
