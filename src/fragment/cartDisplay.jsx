@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { reductionQty, resetCart } from "../redux/slices/cartSlice";
-import { useRef } from "react";
 
 export default function DisplayCart(props) {
   const { products, cart, confirm, setConfirm, isDarkMode } = props;
@@ -115,7 +114,7 @@ export default function DisplayCart(props) {
                   isDarkMode && `text-slate-100`
                 }`}
               >
-                You haven't Added a Product to Cart
+                You havent Added a Product to Cart
               </h1>
             ) : (
               <div>
